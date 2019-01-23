@@ -64,7 +64,7 @@ state "off" means "led1" becomes "low" and "led2" becomes "low" and "led3" becom
 
 initial "off"
 
-from "on" to "off" when "button" becomes "high"
+from "on" to "off" when "button" becomes "high" and when "button2" becomes "high"
 from "off" to "on" when "button" becomes "high"
 
 export "Switch!"
