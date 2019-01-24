@@ -11,7 +11,7 @@ public class Transition implements Visitable {
 
 	private State next;
 	private List<Sensor> sensors = new ArrayList<Sensor>();
-	private SIGNAL value;
+	private List<SIGNAL> value;
 
 
 	public State getNext() {
@@ -30,15 +30,15 @@ public class Transition implements Visitable {
 		this.sensors = sensors;
 	}
 
-	public void setSensor(Sensor sensor) {
+	/*public void setSensor(Sensor sensor) {
 		this.sensors.add(sensor);
-	}
+	}*/
 
-	public SIGNAL getValue() {
+	public List<SIGNAL> getValue() {
 		return value;
 	}
 
-	public void setValue(SIGNAL value) {
+	public void setValue(List<SIGNAL> value) {
 		this.value = value;
 	}
 

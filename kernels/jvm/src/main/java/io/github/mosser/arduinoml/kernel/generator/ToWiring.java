@@ -72,12 +72,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Transition transition) {
-		String multipleSensorsEquation = "if( digitalRead( ";
+		String multipleSensorsEquation = "if( ";
 		String sensorsRepresentation = "";
+		int i = 0;
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
-			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue() + " && ";
+			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue().get(i) + " && ";
+			i++;
 		}
-		multipleSensorsEquation += " guard ) {";
+		multipleSensorsEquation += "guard ) {";
 
 		w(multipleSensorsEquation);
 
