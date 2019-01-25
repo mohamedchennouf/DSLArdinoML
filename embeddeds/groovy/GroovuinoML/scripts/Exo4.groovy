@@ -1,14 +1,16 @@
-sensor "button" pin 9
-actuator "led1" pin 12
-actuator "led2" pin 13
-actuator "led3" pin 14
+sensor "button" onPin 9
+actuator "led" pin 12
+actuator "buzzer" pin 8
 
-state "on" means led1 becomes high
-state "off" means led1 becomes low and led2 becomes low and led3 becomes low
+state "state1" means "buzzer" becomes "high"
+state "state2" means "buzzer" becomes "low" and "led" becomes "high"
+state "state3" means "led" becomes "low"
 
-initial off
+initial "state3"
 
-from on to off when button becomes high
-from off to on when button becomes high
+from "state1" to "state2" when "button" becomes "high"
+from "state2" to "state3" when "button" becomes "high"
+from "state3" to "state1" when "button" becomes "high"
+
 
 export "Switch!"
