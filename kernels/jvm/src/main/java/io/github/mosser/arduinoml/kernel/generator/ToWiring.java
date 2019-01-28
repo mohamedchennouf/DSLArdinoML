@@ -75,10 +75,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 		String multipleSensorsEquation = "  if( guard && (" ;
 		String sensorsRepresentation = "";
 
-		System.out.println(transition.getLogicalOperator());
-        System.out.println("Sensor : " + transition.getSensor());
-        System.out.println("Value "+ transition.getValue());
-        System.out.println("Next" + transition.getNext());
+		//System.out.println(transition.getLogicalOperator());
+        //System.out.println("Sensor : " + transition.getSensor());
+        //System.out.println("Value "+ transition.getValue());
+        //System.out.println("Next" + transition.getNext());
 
 
 	//	if(transition.getLogicalOperator().size()>1){
@@ -93,8 +93,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
 			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue().get(i);
-			if(transition.getLogicalOperator().size() > i+1){ // if there is another condition
-				multipleSensorsEquation += (transition.getLogicalOperator().get(++i).equals(LogicalOperator.AND_LOG )?" && " : " || ");
+			if(transition.getLogicalOperator().size() > i){ // if there is another condition
+				multipleSensorsEquation += (transition.getLogicalOperator().get(i++).equals(LogicalOperator.AND_LOG )?" && " : " || ");
 			}
 		}
 
