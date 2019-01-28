@@ -5,3 +5,6 @@ GroovuinoML/.settings
 GroovuinoML/.classpath
 GroovuinoML/.project
 target
+
+*/.idea/*
+*.iml

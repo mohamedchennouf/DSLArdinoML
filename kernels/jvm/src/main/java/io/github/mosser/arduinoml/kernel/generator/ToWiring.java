@@ -72,18 +72,35 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Transition transition) {
-		String multipleSensorsEquation = "if( ";
+		String multipleSensorsEquation = "  if( guard && (" ;
 		String sensorsRepresentation = "";
-		LogicalOperator logicalOperator = transition.getLogicalOperator().get( 1 );
-		String logOpRepresentation = "";
-		if (logicalOperator.equals( LogicalOperator.AND_LOG )) logOpRepresentation = " && ";
-		else logOpRepresentation = " || ";
+
+		//System.out.println(transition.getLogicalOperator());
+        //System.out.println("Sensor : " + transition.getSensor());
+        //System.out.println("Value "+ transition.getValue());
+        //System.out.println("Next" + transition.getNext());
+
+
+	//	if(transition.getLogicalOperator().size()>1){
+		//LogicalOperator logicalOperator = transition.getLogicalOperator().get(0);
+
+		//String logOpRepresentation = "";
+
+
+		//if (logicalOperator.equals( LogicalOperator.AND_LOG )) logOpRepresentation = " && ";
+		//else logOpRepresentation = " || ";
 		int i = 0;
+
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
-			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue().get(i) + logOpRepresentation;
-			i++;
+			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue().get(i);
+			if(transition.getLogicalOperator().size() > i){ // if there is another condition
+				multipleSensorsEquation += (transition.getLogicalOperator().get(i++).equals(LogicalOperator.AND_LOG )?" && " : " || ");
+			}
 		}
-		multipleSensorsEquation += "guard ) {";
+
+		multipleSensorsEquation += " )) {";
+
+
 
 		w(multipleSensorsEquation);
 
