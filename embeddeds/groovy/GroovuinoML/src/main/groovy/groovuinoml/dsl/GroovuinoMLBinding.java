@@ -5,11 +5,14 @@ import java.util.Map;
 import groovy.lang.Binding;
 import groovy.lang.Script;
 
-public class GroovuinoMLBinding extends Binding {
+public class
+
+
+GroovuinoMLBinding extends Binding {
 	// can be useful to return the script in case of syntax trick
 	private Script script;
 	
-	private GroovuinoMLModel model;
+	private main.groovy.groovuinoml.dsl.GroovuinoMLModel model;
 	
 	public GroovuinoMLBinding() {
 		super();
@@ -29,7 +32,7 @@ public class GroovuinoMLBinding extends Binding {
 		this.script = script;
 	}
 	
-	public void setGroovuinoMLModel(GroovuinoMLModel model) {
+	public void setGroovuinoMLModel(main.groovy.groovuinoml.dsl.GroovuinoMLModel model) {
 		this.model = model;
 	}
 	
@@ -47,7 +50,7 @@ public class GroovuinoMLBinding extends Binding {
 		super.setVariable(name, value);
 	}
 	
-	public GroovuinoMLModel getGroovuinoMLModel() {
+	public main.groovy.groovuinoml.dsl.GroovuinoMLModel getGroovuinoMLModel() {
 		return this.model;
 	}
 }
