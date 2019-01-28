@@ -72,16 +72,18 @@ abstract class GroovuinoMLBasescript extends Script {
 				//	System.out.println("choosen log_op finalllllll: " + logicalOperator.last());
 					[and : { sensor2 ->
 						[becomes: signal2 = { signal2 ->
-							signales.add(signal2)
+							signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
 							sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
+							signales.add(signalB)
 							sensors.add(sensorB)
 							logicalOperator.add(LogicalOperator.AND_LOG);
 							//System.out.println("choosen log_op : " + logicalOperator.last());
 						}]
 					}, or : { sensor3 ->
 						[becomes: signal2 = { signal3 ->
-							signales.add(signal3)
-							sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
+							signalC = signal3 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal3) : (SIGNAL) signal3
+ 							sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
+							signales.add(signalC)
 							sensors.add(sensorB)
 							logicalOperator.add(LogicalOperator.OR_LOG);
 							//System.out.println("choosen log_op : " + logicalOperator.last());
