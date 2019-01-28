@@ -1,5 +1,6 @@
 package main.groovy.groovuinoml.dsl
 
+import io.github.mosser.arduinoml.kernel.behavioral.LogicalOperator
 import main.groovy.groovuinoml.dsl.GroovuinoMLBinding
 import sun.misc.Signal
 
@@ -35,7 +36,7 @@ abstract class GroovuinoMLBasescript extends Script {
 				action.setActuator(actuator instanceof String ? (Actuator)((GroovuinoMLBinding)this.getBinding()).getVariable(actuator) : (Actuator)actuator)
 				action.setValue(signal instanceof String ? (SIGNAL)((GroovuinoMLBinding)this.getBinding()).getVariable(signal) : (SIGNAL)signal)
 				actions.add(action)
-				[and: closure]
+				[and: closure, or : closure]
 			}]
 		}
 		[means: closure]
@@ -51,6 +52,9 @@ abstract class GroovuinoMLBasescript extends Script {
 	def from(state1) {
 		List<Sensor> sensors = new ArrayList<Sensor>();
 		List<SIGNAL> signales = new ArrayList<SIGNAL>();
+		List<LogicalOperator> logicalOperator = new ArrayList<LogicalOperator>();
+		logicalOperator.add(LogicalOperator.AND_LOG);
+		int i = 0;
 		[to: state = { state2 ->
 			[when:  { sensor -> //boutton
 				[becomes: signal = { signal ->
@@ -62,13 +66,25 @@ abstract class GroovuinoMLBasescript extends Script {
 							state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1,
 							state2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state2) : (State) state2,
 							sensors,
-							signales
+							signales,
+							logicalOperator
 					)
+					System.out.println("choosen log_op finalllllll: " + logicalOperator.last());
 					[and : { sensor2 ->
 						[becomes: signal2 = { signal2 ->
 							signales.add(signal2)
 							sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
 							sensors.add(sensorB)
+							logicalOperator.add(LogicalOperator.AND_LOG);
+							System.out.println("choosen log_op : " + logicalOperator.last());
+						}]
+					}, or : { sensor3 ->
+						[becomes: signal2 = { signal3 ->
+							signales.add(signal3)
+							sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
+							sensors.add(sensorB)
+							logicalOperator.add(LogicalOperator.OR_LOG);
+							System.out.println("choosen log_op : " + logicalOperator.last());
 						}]
 					}]
 				}]

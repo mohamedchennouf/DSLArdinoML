@@ -12,6 +12,7 @@ public class Transition implements Visitable {
 	private State next;
 	private List<Sensor> sensors = new ArrayList<Sensor>();
 	private List<SIGNAL> value;
+	private List<LogicalOperator> logicalOperator;
 
 
 	public State getNext() {
@@ -40,6 +41,14 @@ public class Transition implements Visitable {
 
 	public void setValue(List<SIGNAL> value) {
 		this.value = value;
+	}
+
+	public  List<LogicalOperator>  getLogicalOperator() {
+		return logicalOperator;
+	}
+
+	public void setLogicalOperator( List<LogicalOperator>  logicalOperator) {
+		this.logicalOperator = logicalOperator;
 	}
 
 	@Override
