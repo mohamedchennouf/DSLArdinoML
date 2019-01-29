@@ -124,11 +124,11 @@ public class ModelBuilder extends ArduinomlBaseListener {
         mySignals.add(SIGNAL.valueOf(ctx.value.getText()));
 
 
-
         Binding toBeResolvedLater = new Binding();
         toBeResolvedLater.to      = ctx.next.getText();
         toBeResolvedLater.trigger = mySensors;
         toBeResolvedLater.value   = mySignals;
+
         bindings.put(currentState.getName(), toBeResolvedLater);
     }
 
