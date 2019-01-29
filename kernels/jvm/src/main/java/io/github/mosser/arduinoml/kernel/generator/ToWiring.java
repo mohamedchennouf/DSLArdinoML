@@ -66,21 +66,26 @@ public class ToWiring extends Visitor<StringBuffer> {
 			context.put(CURRENT_STATE, state);
 			state.getTransition().accept(this);
 			w("}\n");
+		}else{
+			w("}");
 		}
-
 	}
 
 	@Override
 	public void visit(Transition transition) {
-		String multipleSensorsEquation = "  if( guard && (" ;
+		String multipleSensorsEquation = transition.getSensor().isEmpty()?
+				"if(guard ":
+				"  if( guard && (" ;
 		int i = 0;
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
-			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " + transition.getValue().get(i);
+			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " ;
+			SIGNAL signal = transition.getValue().get(i);
+			multipleSensorsEquation += (signal.equals(SIGNAL.HIGH) || signal.equals(SIGNAL.LOW))? signal : signal.intValue();
 			if(transition.getLogicalOperator().size() > i){ // if there is another condition
 				multipleSensorsEquation += (transition.getLogicalOperator().get(i++).equals(LogicalOperator.AND_LOG )?" && " : " || ");
 			}
 		}
-		multipleSensorsEquation += " )) {";
+		multipleSensorsEquation +=  transition.getSensor().isEmpty()? "){" :" )) {";
 
 		w(multipleSensorsEquation);
 		/*w(String.format("  if( digitalRead(%d) == %s && guard ) {",

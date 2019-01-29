@@ -89,6 +89,19 @@ abstract class GroovuinoMLBasescript extends Script {
 			}]
 		}]
 	}
+	//play state1 then state2
+ 	def play(state1){
+	/*	sensorA = sensor instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor) : (Sensor) sensor
+		signalA = signal instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal) : (SIGNAL) signal
+*/
+		[then: state = {state2 ->
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransition(
+				state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1,
+				state2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state2) : (State) state2,
+				new ArrayList<Sensor>(),
+				new ArrayList<SIGNAL>(),
+				new ArrayList<LogicalOperator>())}]
+	}
 
 
 	// export name
