@@ -15,6 +15,7 @@ public enum SIGNAL {
 	int note;
 	SIGNAL(){}
 	SIGNAL(int i) {
+		note = i;
 	}
 
 	public int intValue(){

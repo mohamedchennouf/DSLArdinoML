@@ -99,7 +99,12 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Action action) {
-		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		w(String.format("  digitalWrite(%d,%s);",
+				action.getActuator().getPin(),
+				(action.getValue().equals(SIGNAL.HIGH) ||
+				action.getValue().equals(SIGNAL.LOW))?
+						action.getValue() : action.getValue().intValue()));
+
 	}
 
 }
