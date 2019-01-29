@@ -107,8 +107,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w("    time = millis();");
 		w(String.format("    state_%s();",transition.getNext().getName()));
 		if(((State) context.get(CURRENT_STATE)).getEmphasized()){
-			w("     count = 3");
-			w("     digitalWrite(" + ((State) context.get(CURRENT_STATE)).getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ")");
+			w("     count = 3;");
+			w("     digitalWrite(" + ((State) context.get(CURRENT_STATE)).getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ");");
 		}
 		w("  } else {");
 		w(String.format("    state_%s();",((State) context.get(CURRENT_STATE)).getName()));
