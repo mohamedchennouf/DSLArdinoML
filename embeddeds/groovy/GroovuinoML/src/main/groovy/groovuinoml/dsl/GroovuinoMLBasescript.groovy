@@ -35,6 +35,7 @@ abstract class GroovuinoMLBasescript extends Script {
 				Action action = new Action()
 				action.setActuator(actuator instanceof String ? (Actuator)((GroovuinoMLBinding)this.getBinding()).getVariable(actuator) : (Actuator)actuator)
 				action.setValue(signal instanceof String ? (SIGNAL)((GroovuinoMLBinding)this.getBinding()).getVariable(signal) : (SIGNAL)signal)
+
 				actions.add(action)
 				[and: closure, or : closure]
 			}]
