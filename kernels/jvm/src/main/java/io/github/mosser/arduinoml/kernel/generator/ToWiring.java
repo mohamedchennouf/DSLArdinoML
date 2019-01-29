@@ -80,7 +80,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
 			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " ;
 			SIGNAL signal = transition.getValue().get(i);
-			multipleSensorsEquation += (signal.equals(SIGNAL.HIGH) || signal.equals(SIGNAL.LOW))? signal : signal.intValue();
+			multipleSensorsEquation += (signal.equals(SIGNAL.HIGH) || signal.equals(SIGNAL.LOW))? signal : signal.getIntValue();
 			if(transition.getLogicalOperator().size() > i){ // if there is another condition
 				multipleSensorsEquation += (transition.getLogicalOperator().get(i++).equals(LogicalOperator.AND_LOG )?" && " : " || ");
 			}
@@ -99,7 +99,13 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Action action) {
-		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue().getIntValue()));
+		/*w(String.format("  digitalWrite(%d,%s);",
+				action.getActuator().getPin(),
+				(action.getValue().equals(SIGNAL.HIGH) ||
+				action.getValue().equals(SIGNAL.LOW))?
+						action.getValue() : action.getValue().getIntValue()));*/
+
 	}
 
 }

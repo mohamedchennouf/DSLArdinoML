@@ -1,6 +1,5 @@
 sensor "button1" onPin 9
 sensor "button2" onPin 10
-actuator "led" pin 12
 actuator "buzzer" pin 8
 
 state "on" means "buzzer" becomes "high"

@@ -12,10 +12,10 @@ sensor "button2" onPin 10
 actuator "led" pin 12
 actuator "buzzer" pin 8
 
-state "sound1" means "buzzer" becomes F1
-state "sound2" means "buzzer" becomes B1
-state "sound3" means "buzzer" becomes C1
-state "sound4" means "buzzer" becomes E1
+state "sound1" means "buzzer" becomes "F1"
+state "sound2" means "buzzer" becomes "B1"
+state "sound3" means "buzzer" becomes "C1"
+state "sound4" means "buzzer" becomes "E1"
 //state "chunk2" means "buzzer" becomes B1 during 10 then C1
 //state "A1" means "buzzer" becomes 55 then 110
 //state "B1" means "buzzer" becomes B1
