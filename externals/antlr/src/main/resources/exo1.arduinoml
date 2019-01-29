@@ -1,8 +1,6 @@
-application exo
-
 sensor button: 9
 actuator led: 12
-actuator buzzer: 11
+actuator buzzer: 8
 
 # Declaring states
 on {
@@ -16,3 +14,8 @@ on {
     buzzer <= LOW
     button is HIGH => on
 }
+
+application exo
+
+signal when on
+
