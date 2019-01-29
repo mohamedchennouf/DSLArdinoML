@@ -48,12 +48,11 @@ abstract class GroovuinoMLBasescript extends Script {
 	}
 
 
-// from state1 to state2 when sensor becomes signal
+// from state1 to state2 when sensor1 becomes signal1 [ and / or  sensor2 becomes signal2 ]
 	def from(state1) {
 		List<Sensor> sensors = new ArrayList<Sensor>();
 		List<SIGNAL> signales = new ArrayList<SIGNAL>();
 		List<LogicalOperator> logicalOperator = new ArrayList<LogicalOperator>();
-	//	logicalOperator.add(LogicalOperator.AND_LOG);
 		int i = 0;
 		[to: state = { state2 ->
 			[when:  { sensor -> //boutton
@@ -69,7 +68,6 @@ abstract class GroovuinoMLBasescript extends Script {
 							signales,
 							logicalOperator
 					)
-				//	System.out.println("choosen log_op finalllllll: " + logicalOperator.last());
 					[and : { sensor2 ->
 						[becomes: signal2 = { signal2 ->
 							signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
@@ -77,7 +75,6 @@ abstract class GroovuinoMLBasescript extends Script {
 							signales.add(signalB)
 							sensors.add(sensorB)
 							logicalOperator.add(LogicalOperator.AND_LOG);
-							//System.out.println("choosen log_op : " + logicalOperator.last());
 						}]
 					}, or : { sensor3 ->
 						[becomes: signal2 = { signal3 ->
@@ -86,7 +83,6 @@ abstract class GroovuinoMLBasescript extends Script {
 							signales.add(signalC)
 							sensors.add(sensorB)
 							logicalOperator.add(LogicalOperator.OR_LOG);
-							//System.out.println("choosen log_op : " + logicalOperator.last());
 						}]
 					}]
 				}]
