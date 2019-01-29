@@ -30,7 +30,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		w("}\n");
 
-		w("int count = 3");
+		w("int count = 3;");
 		w("long time = 0; long debounce = 200;\n");
 
 		for(State state: app.getStates()){
@@ -66,7 +66,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		if(state.getEmphasized() ) {
 			w("  if(count-- > 0){");
-			w("     digitalWrite(" + state.getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ")");
+			w("     digitalWrite(" + state.getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ");");
 			w("  }");
 		}
 
