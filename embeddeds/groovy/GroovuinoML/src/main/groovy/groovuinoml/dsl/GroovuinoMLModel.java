@@ -54,6 +54,17 @@ public class GroovuinoMLModel {
 		this.binding.setVariable(name, state);
 	}
 
+	public void makeEmphasized(String statename,String actuator){
+		for (State state1 : states){
+			if (state1.getName().equals(statename))
+				state1.setEmphasized(true);
+				for(Brick actuator1 : bricks){
+					if(actuator1.getName().equals(actuator)){
+						state1.setEmphasizor((Actuator)actuator1);
+					}
+				}
+		}
+	}
 
 	// List<Sensors>
 	public void createTransition(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {

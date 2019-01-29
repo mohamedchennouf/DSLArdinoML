@@ -30,6 +30,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		w("}\n");
 
+		w("int count = 3");
 		w("long time = 0; long debounce = 200;\n");
 
 		for(State state: app.getStates()){
@@ -57,6 +58,13 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(State state) {
 		w(String.format("void state_%s() {",state.getName()));
+
+		if(state.getEmphasized() ) {
+			w("  if(count-- > 0){");
+			w("     digitalWrite(" + state.getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ")");
+			w("  }");
+		}
+
 		for(Action action: state.getActions()) {
 			action.accept(this);
 		}
@@ -85,6 +93,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 				multipleSensorsEquation += (transition.getLogicalOperator().get(i++).equals(LogicalOperator.AND_LOG )?" && " : " || ");
 			}
 		}
+
 		multipleSensorsEquation +=  transition.getSensor().isEmpty()? "){" :" )) {";
 
 		w(multipleSensorsEquation);
@@ -92,6 +101,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 				 transition.getSensor().getPin(),transition.getValue()));*/
 		w("    time = millis();");
 		w(String.format("    state_%s();",transition.getNext().getName()));
+		if(((State) context.get(CURRENT_STATE)).getEmphasized()){
+			w("     count = 3");
+			w("     digitalWrite(" + ((State) context.get(CURRENT_STATE)).getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ")");
+		}
 		w("  } else {");
 		w(String.format("    state_%s();",((State) context.get(CURRENT_STATE)).getName()));
 		w("  }");
