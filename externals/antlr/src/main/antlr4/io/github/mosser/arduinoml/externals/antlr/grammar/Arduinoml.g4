@@ -5,7 +5,7 @@ grammar Arduinoml;
  ** Parser rules **
  ******************/
 
-root            :   declaration bricks states EOF;
+root            :    bricks states declaration signalstuff EOF;
 
 declaration     :   'application' name=IDENTIFIER;
 
@@ -17,8 +17,11 @@ bricks          :   (sensor|actuator)+;
 states          :   state+;
     state       :   initial? name=IDENTIFIER '{'  action+ transition '}';
     action      :   receiver=IDENTIFIER '<=' value=SIGNAL;
-    transition  :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER ;
+    transition  :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER | transition2;
+    transition2 :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER value=OPERATOR trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER;
     initial     :   '->';
+
+signalstuff :   'signal when' next=IDENTIFIER;
 
 /*****************
  ** Lexer rules **
@@ -27,6 +30,7 @@ states          :   state+;
 PORT_NUMBER     :   [1-9] | '11' | '12';
 IDENTIFIER      :   LOWERCASE (LOWERCASE|UPPERCASE)+;
 SIGNAL          :   'HIGH' | 'LOW';
+OPERATOR        :   'and' | 'or';
 
 /*************
  ** Helpers **

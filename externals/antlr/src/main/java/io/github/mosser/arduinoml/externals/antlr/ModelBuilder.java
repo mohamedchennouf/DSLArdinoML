@@ -11,7 +11,9 @@ import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
@@ -39,8 +41,8 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     private class Binding { // used to support state resolution for transitions
         String to; // name of the next state, as its instance might not have been compiled yet
-        Sensor trigger;
-        SIGNAL value;
+        List<Sensor> trigger;
+        List<SIGNAL> value;
     }
 
     private State currentState = null;
@@ -60,7 +62,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
         bindings.forEach((key, binding) ->  {
             Transition t = new Transition();
-            t.setSensor(binding.trigger);
+            t.setSensors(binding.trigger);
             t.setValue(binding.value);
             t.setNext(states.get(binding.to));
             states.get(key).setTransition(t);
@@ -116,10 +118,18 @@ public class ModelBuilder extends ArduinomlBaseListener {
     @Override
     public void enterTransition(ArduinomlParser.TransitionContext ctx) {
         // Creating a placeholder as the next state might not have been compiled yet.
+        List<Sensor> mySensors = new ArrayList<>();
+        mySensors.add(sensors.get(ctx.trigger.getText()));
+
+        List<SIGNAL> mySignals = new ArrayList<>();
+        mySignals.add(SIGNAL.valueOf(ctx.value.getText()));
+
+
         Binding toBeResolvedLater = new Binding();
         toBeResolvedLater.to      = ctx.next.getText();
-        toBeResolvedLater.trigger = sensors.get(ctx.trigger.getText());
-        toBeResolvedLater.value   = SIGNAL.valueOf(ctx.value.getText());
+        toBeResolvedLater.trigger = mySensors;
+        toBeResolvedLater.value   = mySignals;
+
         bindings.put(currentState.getName(), toBeResolvedLater);
     }
 

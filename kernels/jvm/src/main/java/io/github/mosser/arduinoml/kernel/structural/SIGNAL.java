@@ -12,13 +12,16 @@ public enum SIGNAL {
 	F1 (44),
 	;
 
+
 	int note;
-	SIGNAL(){}
-	SIGNAL(int i) {
-		note = i;
+
+	SIGNAL(int note){
+		this.note = note;
 	}
 
-	public int intValue(){
+	SIGNAL() {}
+
+	public int getIntValue(){
 		return note;
 	}
 
