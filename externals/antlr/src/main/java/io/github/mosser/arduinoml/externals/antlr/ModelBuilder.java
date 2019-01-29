@@ -57,6 +57,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     @Override public void exitRoot(ArduinomlParser.RootContext ctx) {
         // Resolving states in transitions
+
         bindings.forEach((key, binding) ->  {
             Transition t = new Transition();
             t.setSensor(binding.trigger);

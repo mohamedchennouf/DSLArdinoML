@@ -31,6 +31,11 @@ public class Transition implements Visitable {
 		this.sensors = sensors;
 	}
 
+	public void setSensor(Sensor sensors) {
+		this.sensors.add( sensors );
+	}
+
+
 	/*public void setSensor(Sensor sensor) {
 		this.sensors.add(sensor);
 	}*/
@@ -42,6 +47,11 @@ public class Transition implements Visitable {
 	public void setValue(List<SIGNAL> value) {
 		this.value = value;
 	}
+
+	public void setValue(SIGNAL value) {
+		this.value.add( value );
+	}
+
 
 	public  List<LogicalOperator>  getLogicalOperator() {
 		return logicalOperator;
