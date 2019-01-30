@@ -3,19 +3,20 @@ actuator led: 12
 actuator buzzer: 8
 
 # Declaring states
-on {
+stateone {
     led <= HIGH
     buzzer <= HIGH
-    button is LOW => off
+    button is LOW => statetwo
 }
 
--> off {
+-> statetwo {
     led <= LOW
     buzzer <= LOW
-    button is HIGH => on
+    button is HIGH => stateone
 }
 
-application exo
+# variante
+signal statetwo on led
 
-signal when on
+application exo
 

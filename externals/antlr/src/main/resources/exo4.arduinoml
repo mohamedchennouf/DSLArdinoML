@@ -21,7 +21,7 @@ buzzstate {
     button is HIGH => ledstate
 }
 
+# variante
+signal ledstate on led
+
 application exo
-
-
-signal when ledstate

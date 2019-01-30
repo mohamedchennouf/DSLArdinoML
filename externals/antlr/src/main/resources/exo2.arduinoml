@@ -3,17 +3,19 @@ sensor buttontwo: 10
 actuator buzzer: 8
 
 # Declaring states
-on {
+stateone {
     buzzer <= HIGH
-    buttonone is LOW or buttontwo is LOW => off
+    buttonone is LOW or buttontwo is LOW => statetwo
 }
 
--> off {
+-> statetwo {
     buzzer <= LOW
-    buttonone is HIGH and buttontwo is HIGH => on
+    buttonone is HIGH and buttontwo is HIGH => stateone
 }
+
+
+# variante
+signal statetwo on led
 
 application exo
 
-
-signal when off

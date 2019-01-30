@@ -5,7 +5,7 @@ grammar Arduinoml;
  ** Parser rules **
  ******************/
 
-root            :    bricks states declaration signalstuff EOF;
+root            :    bricks states signalstuff declaration EOF;
 
 declaration     :   'application' name=IDENTIFIER;
 
@@ -21,7 +21,7 @@ states          :   state+;
     transition2 :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER value=OPERATOR trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER;
     initial     :   '->';
 
-signalstuff :   'signal when' next=IDENTIFIER;
+signalstuff     :   'signal ' receiver=IDENTIFIER 'on' next=IDENTIFIER;
 
 /*****************
  ** Lexer rules **
