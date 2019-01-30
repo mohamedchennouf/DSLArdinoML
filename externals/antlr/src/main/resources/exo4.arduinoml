@@ -1,3 +1,5 @@
+signal ledstate on led
+
 sensor button: 9
 actuator led: 12
 actuator buzzer: 11
@@ -20,8 +22,5 @@ buzzstate {
     buzzer <= LOW
     button is HIGH => ledstate
 }
-
-# variante
-signal ledstate on led
 
 application exo

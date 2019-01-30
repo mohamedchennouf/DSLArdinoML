@@ -1,5 +1,7 @@
+signal statetwo on led
+
 sensor buttonone: 9
-sensor buttontwo: 10
+sensor buttontwo: 11
 actuator buzzer: 8
 
 # Declaring states
@@ -12,10 +14,6 @@ stateone {
     buzzer <= LOW
     buttonone is HIGH and buttontwo is HIGH => stateone
 }
-
-
-# variante
-signal statetwo on led
 
 application exo
 

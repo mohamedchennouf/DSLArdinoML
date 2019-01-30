@@ -6,6 +6,7 @@ import io.github.mosser.arduinoml.kernel.generator.ToWiring;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
@@ -19,6 +20,9 @@ public class Main {
         System.out.println("\n\nRunning the ANTLR compiler for ArduinoML");
 
         CharStream stream = getCharStream(args);
+        //System.out.println("\n\nmomoooooo");
+        //System.out.println((stream.getText(new Interval(0,100))));
+        //System.out.println("\n\nmomooooooo");
         App theApp = buildModel(stream);
         exportToCode(theApp);
 
@@ -36,7 +40,6 @@ public class Main {
         ArduinomlLexer    lexer   = new ArduinomlLexer(stream);
         lexer.removeErrorListeners();
         lexer.addErrorListener(new StopErrorListener());
-
         ArduinomlParser   parser  = new ArduinomlParser(new CommonTokenStream(lexer));
         parser.removeErrorListeners();
         parser.addErrorListener(new StopErrorListener());

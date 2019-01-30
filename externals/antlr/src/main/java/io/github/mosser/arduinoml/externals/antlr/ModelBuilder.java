@@ -38,6 +38,8 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private Map<String, Actuator> actuators = new HashMap<>();
     private Map<String, State>    states  = new HashMap<>();
     private Map<String, Binding>  bindings  = new HashMap<>();
+    private String stateNameSignaled = "";
+    private String outputSignalment = "";
 
     private class Binding { // used to support state resolution for transitions
         String to; // name of the next state, as its instance might not have been compiled yet
@@ -75,6 +77,14 @@ public class ModelBuilder extends ArduinomlBaseListener {
         theApp.setName(ctx.name.getText());
     }
 
+
+    @Override public void enterSignalstuff(ArduinomlParser.SignalstuffContext ctx) {
+        stateNameSignaled = ctx.receiver.getText();
+        outputSignalment = ctx.next.getText();
+    }
+
+    @Override public void exitSignalstuff(ArduinomlParser.SignalstuffContext ctx) { }
+
     @Override
     public void enterSensor(ArduinomlParser.SensorContext ctx) {
         Sensor sensor = new Sensor();
@@ -97,6 +107,14 @@ public class ModelBuilder extends ArduinomlBaseListener {
     public void enterState(ArduinomlParser.StateContext ctx) {
         State local = new State();
         local.setName(ctx.name.getText());
+        if(ctx.name.getText().equals(stateNameSignaled)){
+            local.setEmphasized(true);
+            for(Actuator act : actuators.values()){
+                if(act.getName().equals(outputSignalment)){
+                    local.setEmphasizor(act);
+                }
+            }
+        }
         this.currentState = local;
         this.states.put(local.getName(), local);
     }
@@ -115,6 +133,7 @@ public class ModelBuilder extends ArduinomlBaseListener {
         currentState.getActions().add(action);
     }
 
+
     @Override
     public void enterTransition(ArduinomlParser.TransitionContext ctx) {
         // Creating a placeholder as the next state might not have been compiled yet.
@@ -129,7 +148,6 @@ public class ModelBuilder extends ArduinomlBaseListener {
         toBeResolvedLater.to      = ctx.next.getText();
         toBeResolvedLater.trigger = mySensors;
         toBeResolvedLater.value   = mySignals;
-
         bindings.put(currentState.getName(), toBeResolvedLater);
     }
 
