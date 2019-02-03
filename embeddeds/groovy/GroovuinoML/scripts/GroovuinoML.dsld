@@ -16,8 +16,7 @@ contribute(currentType(subType('groovy.lang.Script'))) {
 //	property name : 'on', type : Object, provider: 'GroovuinoML', doc: 'A variable'
 //	property name : 'off', type : Object, provider: 'GroovuinoML', doc: 'A variable'
 
-	method type: Script, name: 'sensor', params: [name:String], doc: 'Create a new Sensor'
-	method type: Script, name: 'actuator', params: [name:String], doc: 'Create a new Actuator'
+ 	method type: Script, name: 'actuator', params: [name:String], doc: 'Create a new Actuator'
 	method type: void, name: 'pin', params: [pinNumber:Integer], doc: 'Associate Sensor or Actuator to a pin number'
 	method type: void, name: 'onPin', params: [pinNumber:Integer], doc: 'Associate Sensor or Actuator to a pin number'
 
@@ -44,4 +43,31 @@ contribute(currentType(subType('groovy.lang.Script'))) {
 	method type: Script, name: 'or', params: [sensorName:String], doc: 'Define another Sensor to triggers the Transition'
 
 	method type: void, name: 'export', params: [name:String], doc: 'Export the Arduino Script and define its name'
+
+
+
+    //grammar for the realease 2
+
+	method type: Script, name: 'mode', params: [modeName:String], doc: 'Define the mode'
+	//method type: Script, name: 'mode', params: [mode:Object], doc: 'Define the mode'
+
+
+	//method type: Script, name: 'contains', params: [analogSensorName:String], doc: 'Define the analog sensor associated with particular mode'
+	//method type: Script, name: 'contains', params: [analogSensor:Object], doc: 'Define the analog sensor associated with particular mode'
+
+
+    method type: void, name: 'analogsensor', params: [analogsensorName:String], doc: 'Define the analog sensor associated with particular mode'
+
+    method type: void, name: 'threshold', params: [thresholdValue:Integer], doc: 'Define the analog sensor associated with particular mode'
+
+    method type: void, name: 'contains{', params: [thresholdValue:Integer], doc: 'Define the analog sensor associated with particular mode'
+
+
+
+
+
+
+
+
+
 }

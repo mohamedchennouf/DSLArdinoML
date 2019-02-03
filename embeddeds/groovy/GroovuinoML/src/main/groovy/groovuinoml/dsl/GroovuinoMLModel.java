@@ -5,16 +5,10 @@ import java.util.*;
 
 import groovy.lang.Binding;
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.LogicalOperator;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.generator.ToWiring;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
-import io.github.mosser.arduinoml.kernel.structural.Actuator;
-import io.github.mosser.arduinoml.kernel.structural.Brick;
-import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
-import io.github.mosser.arduinoml.kernel.structural.Sensor;
+import io.github.mosser.arduinoml.kernel.structural.*;
 
 public class GroovuinoMLModel {
 	private List<Brick> bricks;
@@ -92,4 +86,16 @@ public class GroovuinoMLModel {
 		
 		return codeGenerator.getResult();
 	}
+
+	////////****************
+	public void createMode(String modeName, String analogSensorname, Integer threshold) {
+		AnalogSensor analogSensor = new AnalogSensor();
+		analogSensor.setName( analogSensorname );
+		analogSensor.setThreshold( threshold );
+
+		Mode mode = new Mode();
+		mode.setModeName( modeName );
+		mode.setAnalogSensor( analogSensor );
+	}
+
 }

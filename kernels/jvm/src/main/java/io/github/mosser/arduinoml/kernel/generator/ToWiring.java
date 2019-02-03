@@ -130,4 +130,28 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	}
 
+
+	//************PARTIE MODE ************
+	@Override
+	public void visit(AnalogSensor analogSensor) {
+		//w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		/*w(String.format("  digitalWrite(%d,%s);",
+				action.getActuator().getPin(),
+				(action.getValue().equals(SIGNAL.HIGH) ||
+				action.getValue().equals(SIGNAL.LOW))?
+						action.getValue() : action.getValue().getIntValue()));*/
+
+	}
+
+
+	@Override
+	public void visit(Mode mode) {
+		//w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		/*w(String.format("  digitalWrite(%d,%s);",
+				action.getActuator().getPin(),
+				(action.getValue().equals(SIGNAL.HIGH) ||
+				action.getValue().equals(SIGNAL.LOW))?
+						action.getValue() : action.getValue().getIntValue()));*/
+
+	}
 }
