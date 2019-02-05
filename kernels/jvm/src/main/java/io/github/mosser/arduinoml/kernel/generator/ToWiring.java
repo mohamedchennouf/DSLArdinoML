@@ -30,17 +30,22 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		w("}\n");
 
+
 		w("long timerOn = 0;");
 		w("long time = 0; long debounce = 200;\n");
 
 
+
 		for(Mode mode : app.getModes()) {
 			mode.accept(this);
+			for(State state: mode.getStates()){
+				state.accept(this);
+			}
+			w("}\n\n");
+
 		}
 
-		for(State state: app.getStates()){
-			state.accept(this);
-		}
+
 
 		if (app.getInitial() != null) {
 			w("void loop() {");
@@ -68,7 +73,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(State state) {
-		w(String.format("void state_%s() {",state.getName()));
+		w(String.format("  void state_%s() {",state.getName()));
 
 		if(state.getEmphasized() ) {
 			w("  if(timerOn++ < 10000){");
@@ -85,20 +90,20 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 
 		if (state.getTransition() != null) {
-			w("  boolean guard = millis() - time > debounce;");
+			w("    boolean guard = millis() - time > debounce;");
 			context.put(CURRENT_STATE, state);
 			state.getTransition().accept(this);
-			w("}\n");
+			w("  }\n");
 		}else{
-			w("}");
+			w("  }");
 		}
 	}
 
 	@Override
 	public void visit(Transition transition) {
 		String multipleSensorsEquation = transition.getSensor().isEmpty()?
-				"if(guard ":
-				"  if( guard && (" ;
+				"    if(guard ":
+				"    if( guard && (" ;
 		int i = 0;
 		for (Sensor sensor : transition.getSensor()) {//get Sensor-> liste des sensors
 			multipleSensorsEquation += "digitalRead(" + sensor.getPin() + ") == " ;
@@ -118,16 +123,16 @@ public class ToWiring extends Visitor<StringBuffer> {
 		if(((State) context.get(CURRENT_STATE)).getEmphasized()){
 			w("     timerOn = 0;");
 		}
-		w("    time = millis();");
-		w(String.format("    state_%s();",transition.getNext().getName()));
-		w("  } else {");
-		w(String.format("    state_%s();",((State) context.get(CURRENT_STATE)).getName()));
-		w("  }");
+		w("      time = millis();");
+		w(String.format("      state_%s();",transition.getNext().getName()));
+		w("    } else {");
+		w(String.format("      state_%s();",((State) context.get(CURRENT_STATE)).getName()));
+		w("    }");
 	}
 
 	@Override
 	public void visit(Action action) {
-		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		w(String.format("    digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
 		/*w(String.format("  digitalWrite(%d,%s);",
 				action.getActuator().getPin(),
 				(action.getValue().equals(SIGNAL.HIGH) ||
@@ -152,7 +157,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Mode mode) {
-		w(String.format("mode(%s,%s);",mode.getModeName(), mode.getAnalogSensor().getName()));
+		w(String.format("mode(%s,%s) {\n",mode.getModeName(), mode.getAnalogSensor().getName()));
 		/*w(String.format("  digitalWrite(%d,%s);",
 				action.getActuator().getPin(),
 				(action.getValue().equals(SIGNAL.HIGH) ||

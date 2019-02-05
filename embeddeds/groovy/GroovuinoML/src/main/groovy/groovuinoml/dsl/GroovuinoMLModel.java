@@ -12,7 +12,7 @@ import io.github.mosser.arduinoml.kernel.structural.*;
 
 public class GroovuinoMLModel {
 	private List<Brick> bricks;
-	private List<State> states;
+	//private List<State> states;
 	private State initialState;
 	private List<Mode> modes;
 	//private List<AnalogSensor> analogSensors;
@@ -22,7 +22,7 @@ public class GroovuinoMLModel {
 	
 	public GroovuinoMLModel(Binding binding) {
 		this.bricks = new ArrayList<Brick>();
-		this.states = new ArrayList<State>();
+		//this.states = new ArrayList<State>();
 		this.modes = new ArrayList<Mode>();
 		//this.analogSensors = new ArrayList<AnalogSensor>();
 		this.binding = binding;
@@ -49,13 +49,13 @@ public class GroovuinoMLModel {
 		State state = new State();
 		state.setName(name);
 		state.setActions(actions);
-		this.states.add(state);
+		//this.states.add(state);
 		this.binding.setVariable(name, state);
 		mode.setState( state );
 	}
 
 	public void makeEmphasized(String statename,String actuator){
-		for (State state1 : states){
+		/*for (State state1 : states){
 			if (state1.getName().equals(statename))
 				state1.setEmphasized(true);
 				for(Brick actuator1 : bricks){
@@ -63,7 +63,7 @@ public class GroovuinoMLModel {
 						state1.setEmphasizor((Actuator)actuator1);
 					}
 				}
-		}
+		}*/
 	}
 
 	public void createTransition(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
@@ -99,7 +99,7 @@ public class GroovuinoMLModel {
 		App app = new App();
 		app.setName(appName);
 		app.setBricks(this.bricks);
-		app.setStates(this.states);
+		//app.setStates(this.states);
 		app.setInitial(this.initialState);
 		//app.setAnalogSensor( this.analogSensors );
 		app.setMode( this.modes );

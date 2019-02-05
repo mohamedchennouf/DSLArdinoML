@@ -2,7 +2,7 @@ sensor "button1" onPin 9
 actuator "led" pin 12
 actuator "buzzer" pin 8
 
-mode "jour" analogsensor "name" threshold 1
+mode "jour" analogsensor "analogsensor1" threshold 1
 
 
 inside "jour" state "on" means "led" becomes "high" and "buzzer" becomes "high"
