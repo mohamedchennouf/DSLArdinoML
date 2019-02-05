@@ -46,12 +46,16 @@ public class GroovuinoMLModel {
 	}
 	
 	public void createState(Mode mode, String name, List<Action> actions) {
-		State state = new State();
-		state.setName(name);
-		state.setActions(actions);
-		//this.states.add(state);
-		this.binding.setVariable(name, state);
-		mode.setState( state );
+		try{
+			this.binding.getVariable(name);
+		} catch (groovy.lang.MissingPropertyException e) {
+			State state = new State();
+			state.setName( name );
+			state.setActions( actions );
+			//this.states.add(state);
+			this.binding.setVariable( name, state );
+			mode.setState( state );
+		}
 	}
 
 	public void makeEmphasized(String statename,String actuator){
