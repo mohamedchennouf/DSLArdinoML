@@ -5,8 +5,8 @@ actuator "buzzer" pin 8
 mode "jour" analogsensor "name" threshold 1
 
 
-state "on" means "led" becomes "high" and "buzzer" becomes "high"
-state "off" means "led" becomes "low" and "buzzer" becomes "low"
+inside "jour" state "on" means "led" becomes "high" and "buzzer" becomes "high"
+inside "jour" state "off" means "led" becomes "low" and "buzzer" becomes "low"
 
 initial "off"
 

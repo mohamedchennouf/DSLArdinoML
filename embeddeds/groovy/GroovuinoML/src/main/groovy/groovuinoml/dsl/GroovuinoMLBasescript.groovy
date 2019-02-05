@@ -27,7 +27,7 @@ abstract class GroovuinoMLBasescript extends Script {
 	}
 
 	// state "name" means actuator becomes signal [and actuator becomes signal]*n
-	def state(String name) {
+	/*def state(String name) {
 		List<Action> actions = new ArrayList<Action>()
 		((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createState(name, actions)
 		// recursive closure to allow multiple and statements
@@ -43,6 +43,30 @@ abstract class GroovuinoMLBasescript extends Script {
 			}]
 		}
 		[means: closure]
+	}*/
+
+	def inside(String modeName) {
+		mode = modeName instanceof String ? (Mode)((GroovuinoMLBinding) this.getBinding()).getVariable(modeName) : (Mode) modeName
+		//def state
+		List<Action> actions = new ArrayList<Action>()
+		[state : { name ->
+		// recursive closure to allow multiple and statements
+			def closure
+			closure = { actuator ->
+				[becomes: { signal ->
+					Action action = new Action()
+					action.setActuator(actuator instanceof String ? (Actuator)((GroovuinoMLBinding)this.getBinding()).getVariable(actuator) : (Actuator)actuator)
+					action.setValue(signal instanceof String ? (SIGNAL)((GroovuinoMLBinding)this.getBinding()).getVariable(signal) : (SIGNAL)signal)
+
+					actions.add(action)
+					((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createState(mode, name, actions)
+					//mode.setStates()
+					[and: closure, or : closure]
+				}]
+			}
+			[means: closure]
+		}]
+		//mode.setStates()
 	}
 
 	// initial state

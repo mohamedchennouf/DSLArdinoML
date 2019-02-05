@@ -4,11 +4,16 @@ import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.AnalogSensor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Mode implements Visitable {
 
     private String modeName;
     private AnalogSensor analogSensor;
+    private List<State> states = new ArrayList<>(  );
+
 
     public String getModeName() {
         return modeName;
@@ -26,7 +31,17 @@ public class Mode implements Visitable {
         this.analogSensor = analogSensor;
     }
 
+    public List<State> getStates() {
+        return states;
+    }
 
+    public void setStates(List<State> states) {
+        this.states = states;
+    }
+
+    public void setState(State state) {
+        this.states.add( state );
+    }
 
     @Override
     public void accept(Visitor visitor) {

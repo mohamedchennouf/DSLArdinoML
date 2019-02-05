@@ -45,12 +45,13 @@ public class GroovuinoMLModel {
 		this.binding.setVariable(name, actuator);
 	}
 	
-	public void createState(String name, List<Action> actions) {
+	public void createState(Mode mode, String name, List<Action> actions) {
 		State state = new State();
 		state.setName(name);
 		state.setActions(actions);
 		this.states.add(state);
 		this.binding.setVariable(name, state);
+		mode.setState( state );
 	}
 
 	public void makeEmphasized(String statename,String actuator){
@@ -84,9 +85,8 @@ public class GroovuinoMLModel {
 		mode.setModeName( modeName );
 		mode.setAnalogSensor( analogSensor );
 
-		this.modes.add( mode );
-		this.binding.setVariable( modeName,mode );
-
+		this.modes.add(mode);
+		this.binding.setVariable(modeName,mode);
 		this.bricks.add( analogSensor );
 	}
 	
