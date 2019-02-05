@@ -1,4 +1,4 @@
-package main.groovy.groovuinoml.dsl;
+package groovuinoml.dsl;
 
 import java.util.*;
 
@@ -14,12 +14,17 @@ public class GroovuinoMLModel {
 	private List<Brick> bricks;
 	private List<State> states;
 	private State initialState;
-	
+	private List<Mode> modes;
+	//private List<AnalogSensor> analogSensors;
+
+
 	private Binding binding;
 	
 	public GroovuinoMLModel(Binding binding) {
 		this.bricks = new ArrayList<Brick>();
 		this.states = new ArrayList<State>();
+		this.modes = new ArrayList<Mode>();
+		//this.analogSensors = new ArrayList<AnalogSensor>();
 		this.binding = binding;
 	}
 	
@@ -60,7 +65,6 @@ public class GroovuinoMLModel {
 		}
 	}
 
-	// List<Sensors>
 	public void createTransition(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
 		Transition transition = new Transition();
 		transition.setNext(to);
@@ -68,6 +72,22 @@ public class GroovuinoMLModel {
 		transition.setValue(value);
 		transition.setLogicalOperator(logicalOperator);
 		from.setTransition(transition);
+	}
+
+	////////****************
+	public void createMode(String modeName, String analogSensorname, Integer threshold) {
+		AnalogSensor analogSensor = new AnalogSensor();
+		analogSensor.setName( analogSensorname );
+		analogSensor.setThreshold( threshold );
+
+		Mode mode = new Mode();
+		mode.setModeName( modeName );
+		mode.setAnalogSensor( analogSensor );
+
+		this.modes.add( mode );
+		this.binding.setVariable( modeName,mode );
+
+		this.bricks.add( analogSensor );
 	}
 	
 	public void setInitialState(State state) {
@@ -81,21 +101,14 @@ public class GroovuinoMLModel {
 		app.setBricks(this.bricks);
 		app.setStates(this.states);
 		app.setInitial(this.initialState);
+		//app.setAnalogSensor( this.analogSensors );
+		app.setMode( this.modes );
 		Visitor codeGenerator = new ToWiring();
 		app.accept(codeGenerator);
 		
 		return codeGenerator.getResult();
 	}
 
-	////////****************
-	public void createMode(String modeName, String analogSensorname, Integer threshold) {
-		AnalogSensor analogSensor = new AnalogSensor();
-		analogSensor.setName( analogSensorname );
-		analogSensor.setThreshold( threshold );
 
-		Mode mode = new Mode();
-		mode.setModeName( modeName );
-		mode.setAnalogSensor( analogSensor );
-	}
 
 }

@@ -30,6 +30,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		w("}\n");
 
+		for(Mode mode : app.getModes()) {
+			mode.accept(this);
+		}
+
 		w("long timerOn = 0;");
 		w("long time = 0; long debounce = 200;\n");
 
@@ -42,6 +46,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			w(String.format("  state_%s();", app.getInitial().getName()));
 			w("}");
 		}
+
 	}
 
 	@Override
@@ -134,7 +139,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 	//************PARTIE MODE ************
 	@Override
 	public void visit(AnalogSensor analogSensor) {
-		//w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		w(String.format("  analogSensor(%d,%s);", analogSensor.getThreshold(), analogSensor.getName()));
 		/*w(String.format("  digitalWrite(%d,%s);",
 				action.getActuator().getPin(),
 				(action.getValue().equals(SIGNAL.HIGH) ||
@@ -146,7 +151,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Mode mode) {
-		//w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+		w(String.format("  mode(%s,%s);",mode.getModeName(), mode.getAnalogSensor().getName()));
 		/*w(String.format("  digitalWrite(%d,%s);",
 				action.getActuator().getPin(),
 				(action.getValue().equals(SIGNAL.HIGH) ||

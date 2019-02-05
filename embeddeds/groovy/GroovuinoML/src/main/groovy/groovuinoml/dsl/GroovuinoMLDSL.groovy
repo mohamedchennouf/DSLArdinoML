@@ -1,5 +1,7 @@
 package main.groovy.groovuinoml.dsl
 
+
+import groovuinoml.dsl.GroovuinoMLModel
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.SecureASTCustomizer
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL
@@ -19,6 +21,7 @@ class GroovuinoMLDSL {
 		
 		binding.setVariable("high", SIGNAL.HIGH)
 		binding.setVariable("low", SIGNAL.LOW)
+		//binding.setVariable("{", "")
 
 
 	}

@@ -1,8 +1,10 @@
 package io.github.mosser.arduinoml.kernel;
 
+import io.github.mosser.arduinoml.kernel.behavioral.Mode;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
 import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
+import io.github.mosser.arduinoml.kernel.structural.AnalogSensor;
 import io.github.mosser.arduinoml.kernel.structural.Brick;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ public class App implements NamedElement, Visitable {
 	private List<Brick> bricks = new ArrayList<Brick>();
 	private List<State> states = new ArrayList<State>();
 	private State initial;
+	private List<Mode> modes = new ArrayList<Mode>();
+	private List<AnalogSensor> analogSensor =new ArrayList<AnalogSensor>();
 
 	@Override
 	public String getName() {
@@ -47,6 +51,23 @@ public class App implements NamedElement, Visitable {
 
 	public void setInitial(State initial) {
 		this.initial = initial;
+	}
+
+	public List<Mode> getModes() {
+		return modes;
+	}
+
+	public void setMode(List<Mode> modes) {
+		this.modes = modes;
+	}
+
+
+	public List<AnalogSensor> getAnalogSensor() {
+		return analogSensor;
+	}
+
+	public void setAnalogSensor(List<AnalogSensor> analogSensor) {
+		this.analogSensor = analogSensor;
 	}
 
 	@Override

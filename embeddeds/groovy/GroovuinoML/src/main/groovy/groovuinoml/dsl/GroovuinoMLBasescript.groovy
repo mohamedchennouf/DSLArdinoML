@@ -27,7 +27,7 @@ abstract class GroovuinoMLBasescript extends Script {
 	}
 
 	// state "name" means actuator becomes signal [and actuator becomes signal]*n
-	/*def state(String name) {
+	def state(String name) {
 		List<Action> actions = new ArrayList<Action>()
 		((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createState(name, actions)
 		// recursive closure to allow multiple and statements
@@ -43,7 +43,7 @@ abstract class GroovuinoMLBasescript extends Script {
 			}]
 		}
 		[means: closure]
-	}*/
+	}
 
 	// initial state
 	def initial(state) {
@@ -106,6 +106,25 @@ abstract class GroovuinoMLBasescript extends Script {
 	}
 
 
+	def mode(modeName) {
+		AnalogSensor analogSensor = new AnalogSensor()
+		Mode mode = new Mode()
+		[analogsensor : { analogSensorName ->
+			[threshold : { thresholdValue ->
+
+				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(modeName, analogSensorName, thresholdValue)
+				/*analogSensor.setName( analogSensorName );
+				analogSensor.setThreshold( thresholdValue );
+
+				mode.setModeName( modeName );
+				mode.setAnalogSensor( analogSensor );*/
+
+
+			}]
+		}]
+	}
+
+
 	// export name
 	def export(String name) {
 		println(((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().generateCode(name).toString())
@@ -122,59 +141,6 @@ abstract class GroovuinoMLBasescript extends Script {
 			println "Run method is disabled"
 		}
 	}
-
-
-
-	//mode "jour" contains "analog sensor" with "threshold"
-	//************************* MODE
-	/*def mode(modeName) {
-		[contains:  {analogSensorName ->
-			[with : { threshold ->
-				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(modeName, analogSensorName, threshold)
-				/*AnalogSensor analogSensor = new AnalogSensor();
-				analogSensor.setName( analogSensorName );
-				analogSensor.setThreshold( threshold );
-
-				Mode mode = new Mode();
-				mode.setModeName( modeName );
-				mode.setAnalogSensor( analogSensor );
-
-			}]
-		}]
-
-
-	}*/
-
-
-	/*mode "jour" {
-		analogsensor "name" threshold 1
-	}*/
-
-
-	def mode(modeName) {
-		[analogsensor : { analogSensorName ->
-			[threshold : { thresholdValue ->
-				//((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(modeName, analogSensorName, threshold)
-
-				AnalogSensor analogSensor = new AnalogSensor();
-				analogSensor.setName( analogSensorName );
-				analogSensor.setThreshold( thresholdValue );
-
-				Mode mode = new Mode();
-				mode.setModeName( modeName );
-				mode.setAnalogSensor( analogSensor );
-
-
-}]
-}]
-
-}
-
-
-
-
-
-
 
 
 

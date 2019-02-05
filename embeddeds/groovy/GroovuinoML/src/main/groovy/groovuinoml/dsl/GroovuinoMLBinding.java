@@ -2,6 +2,7 @@ package main.groovy.groovuinoml.dsl;
 
 import java.util.Map;
 
+import groovuinoml.dsl.GroovuinoMLModel;
 import groovy.lang.Binding;
 import groovy.lang.Script;
 
@@ -12,7 +13,7 @@ GroovuinoMLBinding extends Binding {
 	// can be useful to return the script in case of syntax trick
 	private Script script;
 	
-	private main.groovy.groovuinoml.dsl.GroovuinoMLModel model;
+	private GroovuinoMLModel model;
 	
 	public GroovuinoMLBinding() {
 		super();
@@ -32,13 +33,13 @@ GroovuinoMLBinding extends Binding {
 		this.script = script;
 	}
 	
-	public void setGroovuinoMLModel(main.groovy.groovuinoml.dsl.GroovuinoMLModel model) {
+	public void setGroovuinoMLModel(GroovuinoMLModel model) {
 		this.model = model;
 	}
 	
 	public Object getVariable(String name) {
 		// Easter egg (to show you this trick: seb is now a keyword!)
-		if ("seb".equals(name)) {
+		if ("{".equals(name)) {
 			// could do something else like: ((App) this.getVariable("app")).action();
 			System.out.println("Seb, c'est bien");
 			return script;
@@ -50,7 +51,7 @@ GroovuinoMLBinding extends Binding {
 		super.setVariable(name, value);
 	}
 	
-	public main.groovy.groovuinoml.dsl.GroovuinoMLModel getGroovuinoMLModel() {
+	public GroovuinoMLModel getGroovuinoMLModel() {
 		return this.model;
 	}
 }
