@@ -11,7 +11,6 @@ import java.util.List;
 public class Mode implements Visitable {
 
     private String modeName;
-    private AnalogSensor analogSensor;
     private List<State> states = new ArrayList<>(  );
 
 
@@ -23,13 +22,6 @@ public class Mode implements Visitable {
         this.modeName = modeName;
     }
 
-    public AnalogSensor getAnalogSensor() {
-        return analogSensor;
-    }
-
-    public void setAnalogSensor(AnalogSensor analogSensor) {
-        this.analogSensor = analogSensor;
-    }
 
     public List<State> getStates() {
         return states;

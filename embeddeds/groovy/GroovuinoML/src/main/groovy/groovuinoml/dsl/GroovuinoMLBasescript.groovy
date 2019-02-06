@@ -140,23 +140,17 @@ abstract class GroovuinoMLBasescript extends Script {
 
 	}
 
+	def analogsensor(analogSensorName) {
+		[threshold : { thresholdValue ->
+			//AnalogSensor analogSensor = new AnalogSensor()
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createAnalogSensor( analogSensorName, thresholdValue)
+
+		}]
+	}
 
 	def mode(modeName) {
-		AnalogSensor analogSensor = new AnalogSensor()
 		Mode mode = new Mode()
-		[analogsensor : { analogSensorName ->
-			[threshold : { thresholdValue ->
-
-				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(modeName, analogSensorName, thresholdValue)
-				/*analogSensor.setName( analogSensorName );
-				analogSensor.setThreshold( thresholdValue );
-
-				mode.setModeName( modeName );
-				mode.setAnalogSensor( analogSensor );*/
-
-
-			}]
-		}]
+		((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(modeName)
 	}
 
 

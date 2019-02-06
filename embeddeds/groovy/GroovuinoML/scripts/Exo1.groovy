@@ -1,8 +1,11 @@
 sensor "button1" onPin 9
 actuator "led" pin 12
 actuator "buzzer" pin 8
+analogsensor "analogsensor1" threshold 1
+analogsensor "analogsensor2" threshold 3
 
-mode "jour" analogsensor "analogsensor1" threshold 1
+
+mode "jour"
 
 
 inside "jour" state "on" means "led" becomes "high" and "buzzer" becomes "high"
@@ -14,14 +17,14 @@ from "on" to "off" when "button1" becomes "low"
 from "off" to "on" when "button1" becomes "high"
 
 
-mode "night" analogsensor "analogsensor2" threshold 3
+mode "night"
 
 inside "night" state "on1" means "led" becomes "high" and "buzzer" becomes "high"
 inside "night" state "off1" means "led" becomes "low" and "buzzer" becomes "low"
 
 initial "off"
 
-from "on1" to "off" when "button1" becomes "low"
+from "on1" to "off1" when "button1" becomes "low"
 from "off1" to "on1" when "button1" becomes "high"
 
 

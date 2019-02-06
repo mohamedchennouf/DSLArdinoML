@@ -167,11 +167,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 						action.getValue() : action.getValue().getIntValue()));*/
 
 
-		w("sensorValue = analogRead(analogInPin)");
+		//w("sensorValue = analogRead(analogInPin)");
 		// map it to the range of the analog out:
 
-		w("Serial.print('sensor = ')");
-		w("Serial.print(sensorValue);");
+		//w("Serial.print('sensor = ')");
+		//w("Serial.print(sensorValue);");
 
 	}
 }

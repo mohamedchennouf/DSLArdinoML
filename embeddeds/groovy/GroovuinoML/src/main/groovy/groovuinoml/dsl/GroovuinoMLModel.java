@@ -81,21 +81,23 @@ public class GroovuinoMLModel {
 	}
 
 	////////****************
-	public void createMode(String modeName, String analogSensorname, Integer threshold) {
+	public void createMode(String modeName) {
+		Mode mode = new Mode();
+		mode.setModeName( modeName );
+		this.modes.add(mode);
+		this.binding.setVariable(modeName,mode);
+	}
+
+	public void createAnalogSensor(String analogSensorname, Integer threshold) {
 		AnalogSensor analogSensor = new AnalogSensor();
 		analogSensor.setName( analogSensorname );
 		analogSensor.setThreshold( threshold );
-
-		Mode mode = new Mode();
-		mode.setModeName( modeName );
-		mode.setAnalogSensor( analogSensor );
-
-		this.modes.add(mode);
-		this.binding.setVariable(modeName,mode);
 		this.bricks.add( analogSensor );
+		this.binding.setVariable(analogSensorname,analogSensor);
 	}
-	
-	public void setInitialState(State state) {
+
+
+		public void setInitialState(State state) {
 		this.initialState = state;
 	}
 	
