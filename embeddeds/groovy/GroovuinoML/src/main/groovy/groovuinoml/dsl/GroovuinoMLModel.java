@@ -71,13 +71,22 @@ public class GroovuinoMLModel {
 		}*/
 	}
 
-	public void createTransition(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
+	public void createTransitionState(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
 		Transition transition = new Transition();
 		transition.setNext(to);
 		transition.setSensors(sensors); //for the list of sensors
 		transition.setValue(value);
 		transition.setLogicalOperator(logicalOperator);
 		from.setTransition(transition);
+	}
+
+	public void createTransitionMode(Mode from, Mode to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
+		/*Transition transition = new Transition();
+		transition.setNext(to);
+		transition.setSensors(sensors); //for the list of sensors
+		transition.setValue(value);
+		transition.setLogicalOperator(logicalOperator);
+		//from.setTransition(transition);*/
 	}
 
 	////////****************

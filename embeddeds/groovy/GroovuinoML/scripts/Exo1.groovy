@@ -28,6 +28,10 @@ from "on1" to "off1" when "button1" becomes "low"
 from "off1" to "on1" when "button1" becomes "high"
 
 
+from "jour" to "night" when "button1" becomes "low"
+from "night" to "jour" when "button1" becomes "high"
+
+
 
 //we define the same transition for states and modes
 //adding the condition inside of BAaescript to define wheather it is mode or state

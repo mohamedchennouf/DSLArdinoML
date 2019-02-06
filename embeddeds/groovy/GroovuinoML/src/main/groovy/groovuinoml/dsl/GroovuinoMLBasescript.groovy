@@ -76,53 +76,92 @@ abstract class GroovuinoMLBasescript extends Script {
 	}
 
 
-// from state1 to state2 when sensor1 becomes signal1 [ and / or  sensor2 becomes signal2 ]
-	def from(state1) {
+	def from(stateOrModeName1) { //stateOrModeName2
 		List<Sensor> sensors = new ArrayList<Sensor>();
 		List<SIGNAL> signales = new ArrayList<SIGNAL>();
 		List<LogicalOperator> logicalOperator = new ArrayList<LogicalOperator>();
 		int i = 0;
-		[to: state = { state2 ->
+		[to: state = { stateOrModeName2 ->
 			[when:  { sensor -> //boutton
 				[becomes: signal = { signal ->
 					sensorA = sensor instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor) : (Sensor) sensor
 					signalA = signal instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal) : (SIGNAL) signal
-					stateA = state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1
-					stateB = state2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state2) : (State) state2
-					modeNameA = stateA.getMode().getModeName()
-					modeNameB= stateB.getMode().getModeName()
-					if (modeNameA.equals(modeNameB)) {
-						signales.add(signalA)
-						sensors.add(sensorA)
-						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransition(
-								stateA,
-								stateB,
+					signales.add(signalA)
+					sensors.add(sensorA)
+
+					stateOrModeObjetA = ((GroovuinoMLBinding) this.getBinding()).getVariable(stateOrModeName1)
+					stateOrModeObjetB = ((GroovuinoMLBinding) this.getBinding()).getVariable(stateOrModeName2)
+
+					//checking if stateOrModeObjetA and stateOrModeObjetB are both states
+					try {
+						stateA = (State) stateOrModeObjetA
+						stateB = (State) stateOrModeObjetB
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransitionState(
+								stateA, //stateA, //stateOrModeA,//stateOrModeNameA,
+								stateB, //stateB, //stateOrModeB,//stateOrModeNameB,
 								sensors,
 								signales,
 								logicalOperator
 						)
-						[and : { sensor2 ->
-							[becomes: signal2 = { signal2 ->
-								signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
-								sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
-								signales.add(signalB)
-								sensors.add(sensorB)
-								logicalOperator.add(LogicalOperator.AND_LOG);
-							}]
-						}, or: { sensor3 ->
-							[becomes: signal2 = { signal3 ->
-								signalC = signal3 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal3) : (SIGNAL) signal3
-								sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
-								signales.add(signalC)
-								sensors.add(sensorB)
-								logicalOperator.add(LogicalOperator.OR_LOG);
-							}]
+					} catch (Exception e){}
+
+					try {
+						modeA = (Mode) stateOrModeObjetA
+						modeb = (Mode) stateOrModeObjetB
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransitionMode(
+								modeA, //stateA, //stateOrModeA,//stateOrModeNameA,
+								modeB, //stateB, //stateOrModeB,//stateOrModeNameB,
+								sensors,
+								signales,
+								logicalOperator
+						)
+					} catch (Exception e){}
+
+					[and : { sensor2 ->
+						[becomes: signal2 = { signal2 ->
+							signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
+							sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
+							signales.add(signalB)
+							sensors.add(sensorB)
+							logicalOperator.add(LogicalOperator.AND_LOG);
 						}]
-					} else { //the case when user created the transition that goes from state in one mode to state in another mode
-						throw new GrammarException(modeNameA)
+					}, or: { sensor3 ->
+						[becomes: signal2 = { signal3 ->
+							signalC = signal3 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal3) : (SIGNAL) signal3
+							sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
+							signales.add(signalC)
+							sensors.add(sensorB)
+							logicalOperator.add(LogicalOperator.OR_LOG);
+						}]
+					}]
+/*
+					//check if both stateOrModeName1 and stateOrModeName2 are both models or states
+					if (stateOrModeObjetA.getClass().equals(stateOrModeObjetB.getClass())) {
+
+						if (stateOrModeObjetA.metaClass   getClass().equals("State")) {
+						//stateOrModeA = stateOrModeObjetA.getClass().equals("Mode") ? (Mode) stateOrModeObjetA : (State) stateOrModeObjetA
+						//stateOrModeB = stateOrModeObjetB.getClass().equals("State") ? (Mode) stateOrModeObjetB : (State) stateOrModeObjetB
+
+
+						//TO DELETE
+						stateA = stateOrModeName1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(stateOrModeName1) : (State) stateOrModeName1
+						stateB = stateOrModeName2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(stateOrModeName2) : (State) stateOrModeName2
+
+						//TO CHANGE stateA, stateB
+						//modeNameA = stateA.getMode().getModeName()
+						//modeNameB = stateB.getMode().getModeName()
+
+						//if (modeNameA.equals(modeNameB)) {
+
+						} else {
+							//the case when user created the transition that goes from state in one mode to state in another mode
+							throw new GrammarException(modeNameA)
 							//System.out.println("Sorry, but you grammar: " + e + " is not correct");
 							//e.printStackTrace()
-					}
+						}
+					/*} else {
+						throw new GrammarException("both values have to be modules or states ")
+					}*/
 				}]
 			}]
 		}]
