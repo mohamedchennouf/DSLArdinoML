@@ -1,5 +1,6 @@
 package main.groovy.groovuinoml.dsl
 
+import groovuinoml.GrammarException
 import io.github.mosser.arduinoml.kernel.behavioral.LogicalOperator
 import io.github.mosser.arduinoml.kernel.behavioral.Mode
 import io.github.mosser.arduinoml.kernel.structural.AnalogSensor
@@ -117,6 +118,10 @@ abstract class GroovuinoMLBasescript extends Script {
 								logicalOperator.add(LogicalOperator.OR_LOG);
 							}]
 						}]
+					} else { //the case when user created the transition that goes from state in one mode to state in another mode
+						throw new GrammarException(modeNameA)
+							//System.out.println("Sorry, but you grammar: " + e + " is not correct");
+							//e.printStackTrace()
 					}
 				}]
 			}]
