@@ -54,7 +54,7 @@ public class GroovuinoMLModel {
 			state.setActions( actions );
 			//this.states.add(state);
 			this.binding.setVariable( name, state );
-			mode.setState( state );
+			mode.addState( state );
 		}
 	}
 

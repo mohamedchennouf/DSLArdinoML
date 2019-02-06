@@ -32,7 +32,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 
 		w("long timerOn = 0;");
-		w("long time = 0; long debounce = 200;\n");
+		w("long time = 0; long debounce = 200;");
+		w("long sensorValue = 0;\n");
+		w("const long analogInPin = 11");
 
 
 
@@ -157,12 +159,19 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Mode mode) {
-		w(String.format("mode(%s,%s) {\n",mode.getModeName(), mode.getAnalogSensor().getName()));
+		//w(String.format("mode(%s,%s) {\n",mode.getModeName(), mode.getAnalogSensor().getName()));
 		/*w(String.format("  digitalWrite(%d,%s);",
 				action.getActuator().getPin(),
 				(action.getValue().equals(SIGNAL.HIGH) ||
 				action.getValue().equals(SIGNAL.LOW))?
 						action.getValue() : action.getValue().getIntValue()));*/
+
+
+		w("sensorValue = analogRead(analogInPin)");
+		// map it to the range of the analog out:
+
+		w("Serial.print('sensor = ')");
+		w("Serial.print(sensorValue);");
 
 	}
 }

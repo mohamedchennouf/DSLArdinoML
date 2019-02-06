@@ -39,7 +39,7 @@ public class Mode implements Visitable {
         this.states = states;
     }
 
-    public void setState(State state) {
+    public void addState(State state) {
         this.states.add( state );
     }
 
