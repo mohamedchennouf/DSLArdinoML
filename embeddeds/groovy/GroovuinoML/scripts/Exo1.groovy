@@ -14,12 +14,24 @@ from "on" to "off" when "button1" becomes "low"
 from "off" to "on" when "button1" becomes "high"
 
 
+mode "night" analogsensor "analogsensor2" threshold 3
+
+inside "night" state "on1" means "led" becomes "high" and "buzzer" becomes "high"
+inside "night" state "off1" means "led" becomes "low" and "buzzer" becomes "low"
+
+initial "off"
+
+from "on1" to "off" when "button1" becomes "low"
+from "off1" to "on1" when "button1" becomes "high"
 
 
-//mode "jour" contains "analog sensor" with "threshold"
-//make "jour" becomes "night"
+
+//we define the same transition for states and modes
+//adding the condition inside of BAaescript to define wheather it is mode or state
+//from "mode1" to "mode2" when "anlogsensorXXXX" becomes 345
 
 
+//contraint pour que deux modes ne peuvent pas avoir les meme nom des états
 
 
 

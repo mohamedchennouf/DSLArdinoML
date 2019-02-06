@@ -86,32 +86,38 @@ abstract class GroovuinoMLBasescript extends Script {
 				[becomes: signal = { signal ->
 					sensorA = sensor instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor) : (Sensor) sensor
 					signalA = signal instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal) : (SIGNAL) signal
-					signales.add(signalA)
-					sensors.add(sensorA)
-					((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransition(
-							state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1,
-							state2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state2) : (State) state2,
-							sensors,
-							signales,
-							logicalOperator
-					)
-					[and : { sensor2 ->
-						[becomes: signal2 = { signal2 ->
-							signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
-							sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
-							signales.add(signalB)
-							sensors.add(sensorB)
-							logicalOperator.add(LogicalOperator.AND_LOG);
+					stateA = state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1
+					stateB = state2 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state2) : (State) state2
+					modeNameA = stateA.getMode().getModeName()
+					modeNameB= stateB.getMode().getModeName()
+					if (modeNameA.equals(modeNameB)) {
+						signales.add(signalA)
+						sensors.add(sensorA)
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransition(
+								stateA,
+								stateB,
+								sensors,
+								signales,
+								logicalOperator
+						)
+						[and : { sensor2 ->
+							[becomes: signal2 = { signal2 ->
+								signalB = signal2 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal2) : (SIGNAL) signal2
+								sensorB = sensor2 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor2) : (Sensor) sensor2
+								signales.add(signalB)
+								sensors.add(sensorB)
+								logicalOperator.add(LogicalOperator.AND_LOG);
+							}]
+						}, or: { sensor3 ->
+							[becomes: signal2 = { signal3 ->
+								signalC = signal3 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal3) : (SIGNAL) signal3
+								sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
+								signales.add(signalC)
+								sensors.add(sensorB)
+								logicalOperator.add(LogicalOperator.OR_LOG);
+							}]
 						}]
-					}, or : { sensor3 ->
-						[becomes: signal2 = { signal3 ->
-							signalC = signal3 instanceof String ? (SIGNAL) ((GroovuinoMLBinding) this.getBinding()).getVariable(signal3) : (SIGNAL) signal3
- 							sensorB = sensor3 instanceof String ? (Sensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(sensor3) : (Sensor) sensor3
-							signales.add(signalC)
-							sensors.add(sensorB)
-							logicalOperator.add(LogicalOperator.OR_LOG);
-						}]
-					}]
+					}
 				}]
 			}]
 		}]

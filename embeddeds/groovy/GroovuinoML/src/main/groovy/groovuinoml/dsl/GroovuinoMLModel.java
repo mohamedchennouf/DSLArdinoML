@@ -52,6 +52,7 @@ public class GroovuinoMLModel {
 			State state = new State();
 			state.setName( name );
 			state.setActions( actions );
+			state.setMode( mode );
 			//this.states.add(state);
 			this.binding.setVariable( name, state );
 			mode.addState( state );
