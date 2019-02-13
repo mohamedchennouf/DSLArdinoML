@@ -17,11 +17,14 @@ transition "t2" from "off" to "on" when "button1" becomes "high"  and "button2" 
 transition "t3" from "on1" to "off" when "button1" becomes "low"  and "button2"  becomes "high"
 transition "t4" from "off" to "on" when "button1" becomes "high"  and "button2"  becomes "high"
 
-mode "jour" states (["on", "off"]) transi (["t1","t2"])
-mode "nuit" states (["on1", "off", "on"]) transi (["t3","t4"])
+mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "off"
+mode "nuit" states (["on1", "off", "on"]) transi (["t3","t4"]) init "on1"
 
 
-mode ""
+from ""
+
+
+
 
 export "Switch!"
 

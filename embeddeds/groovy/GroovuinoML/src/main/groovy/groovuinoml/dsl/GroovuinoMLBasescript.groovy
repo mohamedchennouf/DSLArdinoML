@@ -78,7 +78,7 @@ abstract class GroovuinoMLBasescript extends Script {
 
 
 // from state1 to state2 when sensor1 becomes signal1 [ and / or  sensor2 becomes signal2 ]
-/*	def from(state1) {
+	def from(state1) {
 		List<Sensor> sensors = new ArrayList<Sensor>();
 		List<SIGNAL> signales = new ArrayList<SIGNAL>();
 		List<LogicalOperator> logicalOperator = new ArrayList<LogicalOperator>();
@@ -117,7 +117,7 @@ abstract class GroovuinoMLBasescript extends Script {
 				}]
 			}]
 		}]
-	}*/
+	}
 
 
 	// from state1 to state2 when sensor1 becomes signal1 [ and / or  sensor2 becomes signal2 ]
@@ -211,10 +211,12 @@ abstract class GroovuinoMLBasescript extends Script {
 	def mode(String name) {
 		[states: { states ->
 			[transi: { map ->
-				try {
-					((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(name, states, map)
-				}
-				catch (Exception e) {}
+				[init: { initstate ->
+					try {
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createMode(name, states, map, initstate)
+					}
+					catch (Exception e) {}
+				}]
 			}]
 		}]
 	}

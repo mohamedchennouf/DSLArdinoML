@@ -13,6 +13,7 @@ public class Mode implements Visitable {
     private String modeName;
     private List<State> states = new ArrayList<>();
     private List<Transition> transitions = new ArrayList<>();
+    private State initState;
 
 
     public String getModeName() {
@@ -42,6 +43,14 @@ public class Mode implements Visitable {
 
     public void setTransitions(ArrayList<Transition> transitions) {
         this.transitions = transitions;
+    }
+
+    public State getInitState() {
+        return initState;
+    }
+
+    public void setInitState(State initState) {
+        this.initState = initState;
     }
 
     @Override

@@ -92,7 +92,7 @@ public class GroovuinoMLModel {
 	}
 
 	////////****************
-	public void createMode(String name, ArrayList<String> states, ArrayList<String> transitions) {
+	public void createMode(String name, ArrayList<String> states, ArrayList<String> transitions,String initState) {
 		Mode mode = new Mode();
 		//set Name
 		mode.setModeName(name);
@@ -108,6 +108,8 @@ public class GroovuinoMLModel {
 			myTransitions.add(getTransition(transition));
 		}
 		mode.setTransitions(myTransitions);
+		mode.setInitState(getState(initState));
+		
 		this.modes.add(mode);
 		this.binding.setVariable(name,mode);
 	}
