@@ -12,18 +12,19 @@ import io.github.mosser.arduinoml.kernel.structural.*;
 
 public class GroovuinoMLModel {
 	private List<Brick> bricks;
-	//private List<State> states;
+	private List<State> states;
 	private State initialState;
-	private List<Mode> modes;
-	//private List<AnalogSensor> analogSensors;
+	private ArrayList<Mode> modes;
+	private List<Transition> transitions;
 
 
 	private Binding binding;
 	
 	public GroovuinoMLModel(Binding binding) {
-		this.bricks = new ArrayList<Brick>();
-		//this.states = new ArrayList<State>();
-		this.modes = new ArrayList<Mode>();
+		this.bricks = new ArrayList<>();
+		this.states = new ArrayList<>();
+		this.modes = new ArrayList<>();
+		this.transitions = new ArrayList<>();
 		//this.analogSensors = new ArrayList<AnalogSensor>();
 		this.binding = binding;
 	}
@@ -45,17 +46,15 @@ public class GroovuinoMLModel {
 		this.binding.setVariable(name, actuator);
 	}
 	
-	public void createState(Mode mode, String name, List<Action> actions) {
+	public void createState(String name, List<Action> actions) {
 		try{
 			this.binding.getVariable(name);
 		} catch (groovy.lang.MissingPropertyException e) {
 			State state = new State();
 			state.setName( name );
 			state.setActions( actions );
-			state.setMode( mode );
-			//this.states.add(state);
+			this.states.add(state);
 			this.binding.setVariable( name, state );
-			mode.addState( state );
 		}
 	}
 
@@ -71,13 +70,16 @@ public class GroovuinoMLModel {
 		}*/
 	}
 
-	public void createTransitionState(State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
+	// List<Sensors>
+	public void createTransition(String nameTransition, State from, State to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
 		Transition transition = new Transition();
+		transition.setName(nameTransition);
 		transition.setNext(to);
 		transition.setSensors(sensors); //for the list of sensors
 		transition.setValue(value);
 		transition.setLogicalOperator(logicalOperator);
 		from.setTransition(transition);
+		transitions.add(transition);
 	}
 
 	public void createTransitionMode(Mode from, Mode to, List<Sensor> sensors, List<SIGNAL> value,  List<LogicalOperator>  logicalOperator) {
@@ -90,11 +92,24 @@ public class GroovuinoMLModel {
 	}
 
 	////////****************
-	public void createMode(String modeName) {
+	public void createMode(String name, ArrayList<String> states, ArrayList<String> transitions) {
 		Mode mode = new Mode();
-		mode.setModeName( modeName );
+		//set Name
+		mode.setModeName(name);
+		//set states
+		ArrayList<State> myStates = new ArrayList<>();
+		for(String state : states){
+			myStates.add(getState(state));
+		}
+		mode.setStates(myStates);
+		// set transitions
+		ArrayList<Transition> myTransitions = new ArrayList<>();
+		for(String transition : transitions){
+			myTransitions.add(getTransition(transition));
+		}
+		mode.setTransitions(myTransitions);
 		this.modes.add(mode);
-		this.binding.setVariable(modeName,mode);
+		this.binding.setVariable(name,mode);
 	}
 
 	public void createAnalogSensor(String analogSensorname, Integer threshold) {
@@ -123,6 +138,29 @@ public class GroovuinoMLModel {
 		app.accept(codeGenerator);
 		
 		return codeGenerator.getResult();
+	}
+
+
+	public State getState(String name){
+		State mystate = new State();
+		for(State state : this.states){
+			if(state.getName().equals(name)){
+				mystate = state;
+			}
+		}
+		return mystate;
+	}
+
+	public Transition getTransition(String name){
+		System.out.print(this.transitions.size());
+		Transition myTransition = new Transition();
+		for(Transition transition : this.transitions){
+			if(transition.getName().equals(name)){
+				myTransition = transition;
+			}
+		}
+		System.out.print("transition name "+ myTransition.getName());
+		return myTransition;
 	}
 
 

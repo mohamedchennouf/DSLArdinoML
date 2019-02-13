@@ -11,7 +11,8 @@ import java.util.List;
 public class Mode implements Visitable {
 
     private String modeName;
-    private List<State> states = new ArrayList<>(  );
+    private List<State> states = new ArrayList<>();
+    private List<Transition> transitions = new ArrayList<>();
 
 
     public String getModeName() {
@@ -33,6 +34,14 @@ public class Mode implements Visitable {
 
     public void addState(State state) {
         this.states.add( state );
+    }
+
+    public List<Transition> getTransitions() {
+        return transitions;
+    }
+
+    public void setTransitions(ArrayList<Transition> transitions) {
+        this.transitions = transitions;
     }
 
     @Override

@@ -50,6 +50,10 @@ contribute(currentType(subType('groovy.lang.Script'))) {
     //grammar for the realease 2
 
 	method type: Script, name: 'mode', params: [modeName:String], doc: 'Define the object mode'
+    method type: Script, name: 'states', params: [states:ArrayList<String>], doc: 'Define the states of the mode'
+    method type: Script, name: 'transi', params: [transitions:ArrayList<Object>], doc: 'Define the transitions of the mode'
+
+
 
     method type: void, name: 'analogsensor', params: [analogsensorName:String], doc: 'Define the analog sensor'
     method type: void, name: 'threshold', params: [thresholdValue:Integer], doc: 'Define the value of the analog sensor '
