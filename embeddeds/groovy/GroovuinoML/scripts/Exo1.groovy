@@ -34,15 +34,6 @@ from "night" to "jour" when "button1" becomes "high"
 
 
 
-//we define the same transition for states and modes
-//adding the condition inside of BAaescript to define wheather it is mode or state
-//from "mode1" to "mode2" when "anlogsensorXXXX" becomes 345
-
-
-//contraint pour que deux modes ne peuvent pas avoir les meme nom des états
-
-
-
 export "Switch!"
 
 
