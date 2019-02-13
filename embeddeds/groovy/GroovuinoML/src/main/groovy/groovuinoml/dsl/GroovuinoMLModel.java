@@ -90,36 +90,36 @@ public class GroovuinoMLModel {
 
 
 	////////****************
-	/*public void createMode(String name, ArrayList<String> states, ArrayList<String> transitions,String initState) {
+	public void createMode(String name, List<String> states, List<String> transitions,String initState) {
 		Mode mode = new Mode();
 		//set Name
 		mode.setModeName(name);
 		//set states
-		ArrayList<State> myStates = new ArrayList<>();
+		List<State> myStates = new ArrayList<>();
 		for(String state : states){
 			myStates.add(getState(state));
 		}
-		mode.setStates(myStates);
+		/*mode.setStates(myStates);
 		// set transitions
-		ArrayList<Transition> myTransitions = new ArrayList<>();
-		for(String transition : transitions){
+		List<TransitionMode> myTransitions = new ArrayList<>();
+		for(String transitionMode : transitions){
 			myTransitions.add(getTransition(transition));
 		}
-		mode.setTransitionMode(myTransitions);
-		mode.setInitState(getState(initState));
+		mode.setTransitionMode( myTransitions );
+		mode.setInitState(getState(initState));*/
 		
 		this.modes.add(mode);
 		this.binding.setVariable(name,mode);
-	}*/
+	}
 
 
-		////////****************
+	/*	////////****************
 	public void createMode(String modeName) {
 		Mode mode = new Mode();
 		mode.setModeName( modeName );
 		this.modes.add(mode);
 		this.binding.setVariable(modeName,mode);
-	}
+	}*/
 
 
 	public void createAnalogSensor(String analogSensorname, Integer threshold) {

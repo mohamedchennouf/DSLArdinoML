@@ -45,6 +45,10 @@ public class Mode implements Visitable {
         this.transitionMode.add(transitionMode);
     }
 
+    public void setTransitionMode(List<TransitionMode> transitionMode) {
+        this.transitionMode = transitionMode;
+    }
+
     public State getInitState() {
         return initState;
     }
