@@ -21,6 +21,7 @@ public abstract class Visitor<T> {
 	// the model part
 	public abstract void visit(AnalogSensor analogSensor);
 	public abstract void visit(Mode mode);
+	public abstract void visit(TransitionMode transitionMode);
 
 
 

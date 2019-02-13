@@ -174,4 +174,22 @@ public class ToWiring extends Visitor<StringBuffer> {
 		//w("Serial.print(sensorValue);");
 
 	}
+
+	@Override
+	public void visit(TransitionMode transitionMode) {
+		//w(String.format("mode(%s,%s) {\n",mode.getModeName(), mode.getAnalogSensor().getName()));
+		/*w(String.format("  digitalWrite(%d,%s);",
+				action.getActuator().getPin(),
+				(action.getValue().equals(SIGNAL.HIGH) ||
+				action.getValue().equals(SIGNAL.LOW))?
+						action.getValue() : action.getValue().getIntValue()));*/
+
+
+		//w("sensorValue = analogRead(analogInPin)");
+		// map it to the range of the analog out:
+
+		//w("Serial.print('sensor = ')");
+		//w("Serial.print(sensorValue);");
+
+	}
 }

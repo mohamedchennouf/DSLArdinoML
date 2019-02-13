@@ -12,6 +12,7 @@ public class Mode implements Visitable {
 
     private String modeName;
     private List<State> states = new ArrayList<>(  );
+    private TransitionMode transitionMode;
 
 
     public String getModeName() {
@@ -33,6 +34,14 @@ public class Mode implements Visitable {
 
     public void addState(State state) {
         this.states.add( state );
+    }
+
+    public TransitionMode getTransitionMode() {
+        return transitionMode;
+    }
+
+    public void setTransitionMode(TransitionMode transitionMode) {
+        this.transitionMode = transitionMode;
     }
 
     @Override
