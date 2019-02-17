@@ -1,6 +1,5 @@
 
 //const int timeGeneral = 0;     // the number of the pushbutton pin
-int pinNb = 11;
 long timerOn = 0;
 long time = 0; 
 long debounce = 200;
@@ -12,51 +11,46 @@ int threshold2 = 70;
 void setup() {
   // put your setup code here, to run once:
     pinMode(9, INPUT);  // button1 [Sensor]
-    pinMode(10, INPUT);  // button2 [Sensor]
     pinMode(12, OUTPUT); // led [Actuator]
-    pinMode(8, OUTPUT); // buzzer [Actuator] 
-    pinMode(pinNb, INPUT); //analog sensor
+    pinMode(11, INPUT); //analog sensor
 }
     
 
     void state_1(){
       digitalWrite(12,HIGH);
-      digitalWrite(8,HIGH);
-      if(digitalRead(9) == LOW && digitalRead(10) == HIGH ) {
-        modeA(2);
+      if(digitalRead(9) == LOW) {
+        modeA("state2");
     } else {
-        modeA(1);
+        modeA("state1");
     }
 
     }
 
     void state_2(){
       digitalWrite(12,LOW);
-      digitalWrite(8,LOW);
-      if(digitalRead(9) == HIGH && digitalRead(10) == HIGH ) {
-        modeA(1);
+      if(digitalRead(9) == HIGH) {
+        modeA("state1");
       } else {
-        modeA(2);
+        modeA("state2");
       }
     }
 
     //we know thz analog sensors that r defined in this mode and therfor theirthresholdand it's pin
-    void modeA(int currentStateNb) {
-      boolean guard = millis() - time > debounce;
+    void modeA(String currentStateName) {
      // boolean timeDifferenceThreshold = millis() - timeGeneral 
-      if ( guard && (analogRead(pinNb) > threshold1)){ // trnasition to modeB
-         modeB(1);
-      } else if ( guard && analogRead(pinNb) < threshold2) { // trnasition to modeC
-        modeC(1);
+      if (analogRead(pinNb) > threshold1){ // trnasition to modeB
+         modeB(state1);
+      /*} else if (analogRead(pinNb) < threshold2) { // trnasition to modeC
+        modeC(null);*/
       } else{ //transition of states happens here 
-        switch (currentStateNb) {
-          case 1:
+        switch (currentStateName) {
+          case "state1":
             state_1();
             break;
-          case 2:
+          case "state2":
             state_2();
             break;
-          case 3:
+          case "state3":
             // another state
             break;
         }
@@ -64,12 +58,27 @@ void setup() {
       
     }
 
-     void modeB(int currentStateNb) {
+     void modeB(String currentStateName) {
+           // boolean timeDifferenceThreshold = millis() - timeGeneral 
+      if (analogRead(pinNb) < threshold1){ // trnasition to modeB
+         modeA(state1);
+      } else{ //transition of states happens here 
+        switch (currentStateName) {
+          case "state1":
+            state_1();
+            break;
+          case "state2":
+            state_2();
+            break;
+          case "state3":
+            // another state
+            break;
+        }
 
 
     }
 
-    void modeC(int currentStateNb) {}
+    //void modeC(String currentStateName) {}
 
 
 void loop() {
