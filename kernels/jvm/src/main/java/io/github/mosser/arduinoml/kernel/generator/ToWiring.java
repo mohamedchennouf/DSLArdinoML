@@ -43,10 +43,13 @@ public class ToWiring extends Visitor<StringBuffer> {
 			for(State state: mode.getStates()){
 				state.accept(this);
 			}
-			w("}\n\n");
-
+			w("}\n\n\n");
+			if (mode.getTransitionMode().size() != 0) {
+				for (TransitionMode transitionMode : mode.getTransitionMode()) {
+					transitionMode.accept( this );
+				}
+			}
 		}
-
 
 
 		if (app.getInitial() != null) {
@@ -54,6 +57,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			w(String.format("  state_%s();", app.getInitial().getName()));
 			w("}");
 		}
+
 
 	}
 

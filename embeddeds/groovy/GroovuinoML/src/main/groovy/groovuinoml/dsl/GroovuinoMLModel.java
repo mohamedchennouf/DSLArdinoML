@@ -27,7 +27,6 @@ public class GroovuinoMLModel {
 		this.modes = new ArrayList<>();
 		this.transitions = new ArrayList<>();
 		this.transitionModes = new ArrayList<>();
-		//this.analogSensors = new ArrayList<AnalogSensor>();
 		this.binding = binding;
 	}
 	
@@ -37,7 +36,6 @@ public class GroovuinoMLModel {
 		sensor.setPin(pinNumber);
 		this.bricks.add(sensor);
 		this.binding.setVariable(name, sensor);
-//		System.out.println("> sensor " + name + " on pin " + pinNumber);
 	}
 	
 	public void createActuator(String name, Integer pinNumber) {
@@ -80,43 +78,44 @@ public class GroovuinoMLModel {
 		transition.setSensors(sensors); //for the list of sensors
 		transition.setValue(value);
 		transition.setLogicalOperator(logicalOperator);
+		transition.setActualState( from );
 		from.setTransition(transition);
-		transitions.add(transition);
+		this.binding.setVariable( nameTransition, transition );
+		//transitions.add(transition);
 	}
 
-	public void createTransitionMode(String mode1, String mode2, Sensor sensor, String signe,double value) {
+
+	public void createTransitionMode(Mode mode1, Mode mode2, AnalogSensor analogSensor, String signe) {
 		TransitionMode transitionMode = new TransitionMode();
-		Mode modeone = getMode(mode1);
-		Mode modetwo = getMode(mode2);
-		transitionMode.setSigne(signe);
-		transitionMode.setSignalValue(value);
-		transitionMode.setNext(modetwo);
-		transitionMode.setActual(modeone);
-		transitionMode.setAnalogSensors(sensor);
-		transitionModes.add(transitionMode);
+		transitionMode.setNext(mode2);
+		transitionMode.setAnalogSensors( analogSensor ); //for the list of sensors
+		transitionMode.setSigne( signe );
+		transitionMode.setActual( mode1 );
+		mode1.setTransitionMode( transitionMode );
+		this.transitionModes.add( transitionMode );
+
 	}
 
-	////////****************
-	public void createMode(String name, ArrayList<String> states, ArrayList<String> transitions,String initState) {
+
+	public void createMode(String modeName, ArrayList<State> states, ArrayList<Transition> transitions, State initState) {
 		Mode mode = new Mode();
-		//set Name
-		mode.setModeName(name);
+		mode.setModeName(modeName);
+
 		//set states
-		ArrayList<State> myStates = new ArrayList<>();
-		for(String state : states){
-			myStates.add(getState(state));
-		}
-		mode.setStates(myStates);
+		mode.setStates(states);
+
 		// set transitions
-		ArrayList<Transition> myTransitions = new ArrayList<>();
-		for(String transition : transitions){
-			myTransitions.add(getTransition(transition));
+		mode.setTransitions(transitions);
+
+		mode.setInitState(initState);
+
+		//associate each state with mode
+		for (State state : states) {
+			state.setMode( mode );
 		}
-		mode.setTransitions(myTransitions);
-		mode.setInitState(getState(initState));
 
 		this.modes.add(mode);
-		this.binding.setVariable(name,mode);
+		this.binding.setVariable(modeName,mode);
 	}
 
 	public void createAnalogSensor(String analogSensorname, int pin) {
@@ -148,35 +147,6 @@ public class GroovuinoMLModel {
 	}
 
 
-	public State getState(String name){
-		State mystate = new State();
-		for(State state : this.states){
-			if(state.getName().equals(name)){
-				mystate = state;
-			}
-		}
-		return mystate;
-	}
-
-	public Transition getTransition(String name){
-		Transition myTransition = new Transition();
-		for(Transition transition : this.transitions){
-			if(transition.getName().equals(name)){
-				myTransition = transition;
-			}
-		}
-		return myTransition;
-	}
-
-	public Mode getMode(String modeName){
-		Mode mymode = new Mode();
-		for(Mode mode : this.modes){
-			if(mode.getModeName().equals(modeName)){
-				mymode = mode;
-			}
-		}
-		return mymode;
-	}
 
 
 

@@ -15,7 +15,6 @@ public class State implements NamedElement, Visitable {
 	private boolean emphasized = false;
 	private Actuator emphasizor = new Actuator();
 	private Mode mode;
-
 	private Transition transition;
 
 	@Override
@@ -35,7 +34,6 @@ public class State implements NamedElement, Visitable {
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
 	}
-
 
 
 	public Transition getTransition() {

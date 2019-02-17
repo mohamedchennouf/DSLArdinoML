@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Transition implements Visitable {
 
+	private State actualState;
 	private State next;
 	private List<Sensor> sensors = new ArrayList<Sensor>();
 	private List<SIGNAL> value;
@@ -70,6 +71,14 @@ public class Transition implements Visitable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public State getActualState() {
+		return actualState;
+	}
+
+	public void setActualState(State actual) {
+		this.actualState = actual;
 	}
 
 	@Override

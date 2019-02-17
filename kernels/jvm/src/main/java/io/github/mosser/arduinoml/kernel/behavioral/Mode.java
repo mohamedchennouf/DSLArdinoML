@@ -14,7 +14,7 @@ public class Mode implements Visitable {
     private List<State> states = new ArrayList<>();
     private List<Transition> transitions = new ArrayList<>();
     private State initState;
-    private TransitionMode transitionMode;
+    private List<TransitionMode> transitionMode = new ArrayList<>();
 
 
     public String getModeName() {
@@ -50,13 +50,18 @@ public class Mode implements Visitable {
         this.initState = initState;
     }
 
-    public TransitionMode getTransitionMode() {
-        return transitionMode;
+    public List<TransitionMode> getTransitionMode() {
+        return this.transitionMode;
     }
 
-    public void setTransitionMode(TransitionMode transitionMode) {
+    /*public void setTransitionMode(List<TransitionMode> transitionMode) {
         this.transitionMode = transitionMode;
+    }*/
+
+    public void setTransitionMode(TransitionMode transitionMode) {
+        this.transitionMode.add(transitionMode);
     }
+
 
     public void setTransitions(List<Transition> transitions) {
         this.transitions = transitions;

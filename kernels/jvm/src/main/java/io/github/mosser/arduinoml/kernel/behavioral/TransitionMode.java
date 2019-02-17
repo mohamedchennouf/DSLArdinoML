@@ -14,8 +14,8 @@ public class TransitionMode implements Visitable {
 
     private Mode next;
     private Mode actual;
-    private Sensor analogSensors;
-    private double signalValue;
+    private AnalogSensor analogSensors;
+    //private double signalValue;
     private String signe;
 
 
@@ -27,21 +27,21 @@ public class TransitionMode implements Visitable {
         this.next = next;
     }
 
-    public Sensor getAnalogSensors() {
-        return analogSensors;
+    public AnalogSensor getAnalogSensors() {
+        return this.analogSensors;
     }
 
-    public void setAnalogSensors(Sensor analogSensors) {
+    public void setAnalogSensors(AnalogSensor analogSensors) {
         this.analogSensors = analogSensors;
     }
 
-    public double getSignalValue() {
+    /*public double getSignalValue() {
         return signalValue;
     }
 
     public void setSignalValue(double signal) {
         this.signalValue = signal;
-    }
+    }*/
 
     public Mode getActual() {
         return actual;
