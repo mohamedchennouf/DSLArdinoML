@@ -2,6 +2,7 @@ package io.github.mosser.arduinoml.kernel;
 
 import io.github.mosser.arduinoml.kernel.behavioral.Mode;
 import io.github.mosser.arduinoml.kernel.behavioral.State;
+import io.github.mosser.arduinoml.kernel.behavioral.TransitionMode;
 import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.AnalogSensor;

@@ -13,9 +13,10 @@ public class TransitionMode implements Visitable {
 
 
     private Mode next;
-    private List<AnalogSensor> analogSensors = new ArrayList<AnalogSensor>();
-    private List<SIGNAL> value;
-    private List<LogicalOperator> logicalOperator = new ArrayList<>();
+    private Mode actual;
+    private Sensor analogSensors;
+    private double signalValue;
+    private String signe;
 
 
     public Mode getNext() {
@@ -26,35 +27,37 @@ public class TransitionMode implements Visitable {
         this.next = next;
     }
 
-    public List<AnalogSensor> getAnalogSensors() {
+    public Sensor getAnalogSensors() {
         return analogSensors;
     }
 
-    public void setAnalogSensors(List<AnalogSensor> analogSensors) {
+    public void setAnalogSensors(Sensor analogSensors) {
         this.analogSensors = analogSensors;
     }
 
-    public List<SIGNAL> getValue() {
-        return value;
+    public double getSignalValue() {
+        return signalValue;
     }
 
-    public void setValue(List<SIGNAL> value) {
-        this.value = value;
+    public void setSignalValue(double signal) {
+        this.signalValue = signal;
     }
 
-    public void setValue(SIGNAL value) {
-        this.value.add( value );
+    public Mode getActual() {
+        return actual;
     }
 
-
-    public  List<LogicalOperator>  getLogicalOperator() {
-        return logicalOperator;
+    public void setActual(Mode actual) {
+        this.actual = actual;
     }
 
-    public void setLogicalOperator( List<LogicalOperator>  logicalOperator) {
-        this.logicalOperator = logicalOperator;
+    public String getSigne() {
+        return signe;
     }
 
+    public void setSigne(String signe) {
+        this.signe = signe;
+    }
 
     @Override
     public void accept(Visitor visitor) {

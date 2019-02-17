@@ -11,9 +11,10 @@ import java.util.List;
 public class Mode implements Visitable {
 
     private String modeName;
-    private List<State> states = new ArrayList<>(  );
-    private List<TransitionMode> transitionMode =new ArrayList<TransitionMode>(  );
+    private List<State> states = new ArrayList<>();
+    private List<Transition> transitions = new ArrayList<>();
     private State initState;
+    private TransitionMode transitionMode;
 
 
     public String getModeName() {
@@ -37,16 +38,8 @@ public class Mode implements Visitable {
         this.states.add( state );
     }
 
-    public List<TransitionMode> getTransitionMode() {
-        return transitionMode;
-    }
-
-    public void setTransitionMode(TransitionMode transitionMode) {
-        this.transitionMode.add(transitionMode);
-    }
-
-    public void setTransitionMode(List<TransitionMode> transitionMode) {
-        this.transitionMode = transitionMode;
+    public List<Transition> getTransitions() {
+        return transitions;
     }
 
     public State getInitState() {
@@ -55,6 +48,18 @@ public class Mode implements Visitable {
 
     public void setInitState(State initState) {
         this.initState = initState;
+    }
+
+    public TransitionMode getTransitionMode() {
+        return transitionMode;
+    }
+
+    public void setTransitionMode(TransitionMode transitionMode) {
+        this.transitionMode = transitionMode;
+    }
+
+    public void setTransitions(List<Transition> transitions) {
+        this.transitions = transitions;
     }
 
     @Override
