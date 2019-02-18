@@ -145,25 +145,32 @@ abstract class GroovuinoMLBasescript extends Script {
 
 
 
-	//signalstuff state1
-	//signalstuff "on" when "start" with 1 bip "long" on "led" onlymode "jour"
-	//signalstuff "on" when "stop" with 3 bip "short" on "led"
+	//signalstuff "on" with 1 bip "long" on "buzzer" onlymode "jour"
+	//signalstuff "on" with 3 bip "short" on "buzzer"
 	def signalstuff(state1){
-		[when: { when ->
 			[with: { numberbip ->
-				[bip: { longerbip ->
+				[bip: { lengthbip ->
 					[on: { actuator ->
-						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().makeEmphasized(state1,actuator);
-					},
-					 on: { actuator ->
+						State stateA = state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1
+						Actuator actuatorA = actuator instanceof String ? (Actuator) ((GroovuinoMLBinding) this.getBinding()).getVariable(actuator) : (Actuator) actuator
+
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip );
+
+						/*[onlymode: { mode ->
+							Mode modeA = mode instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode) : (Mode) mode
+
+							((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip );
+						}]*/
+					}]
+					/* on: { actuator ->
 						 [onlymode: { mode ->
-							 ((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().makeEmphasized(state1,actuator);
+							 Mode modeA = mode instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode) : (Mode) mode
+
+							 ((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip, modeA );
 						 }]
-					 }
-					]
+					 }*/
 				}]
 			}]
-		}]
 	}
 
 	def analogsensor(analogSensorName) {
@@ -205,7 +212,10 @@ abstract class GroovuinoMLBasescript extends Script {
 
 					for (String state : states) {
 						State stateA = state instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state) : (State) state
+						//forbid to add the same state in 2 different modes
+						//if (stateA.getMode() == null) {
 						statesList.add(stateA)
+						//}
 					}
 
 					for (String trans : map) {

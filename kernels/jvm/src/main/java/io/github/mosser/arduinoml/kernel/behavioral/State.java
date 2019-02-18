@@ -12,10 +12,11 @@ public class State implements NamedElement, Visitable {
 
 	private String name;
 	private List<Action> actions = new ArrayList<Action>();
-	private boolean emphasized = false;
-	private Actuator emphasizor = new Actuator();
-	private Mode mode;
+	//private boolean emphasized = false;
+	//private Actuator emphasizor = new Actuator();
+	private Mode mode = null;
 	private Transition transition;
+	private Signaling signaling;
 
 	@Override
 	public String getName() {
@@ -44,9 +45,15 @@ public class State implements NamedElement, Visitable {
 		this.transition = transition;
 	}
 
+	public Signaling getSignaling() {
+		return signaling;
+	}
 
+	public void setSignaling(Signaling signaling) {
+		this.signaling = signaling;
+	}
 
-	public void setEmphasized(boolean emphasized) {
+	/*public void setEmphasized(boolean emphasized) {
 		this.emphasized = emphasized;
 	}
 
@@ -60,7 +67,7 @@ public class State implements NamedElement, Visitable {
 
 	public void setEmphasizor(Actuator emphasizor) {
 		this.emphasizor = emphasizor;
-	}
+	}*/
 
 	public Mode getMode() {
 		return mode;

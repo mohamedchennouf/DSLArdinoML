@@ -22,6 +22,8 @@ public abstract class Visitor<T> {
 	public abstract void visit(AnalogSensor analogSensor);
 	public abstract void visit(Mode mode);
 	public abstract void visit(TransitionMode transitionMode);
+	public abstract void visit(Signaling signaling);
+
 
 
 

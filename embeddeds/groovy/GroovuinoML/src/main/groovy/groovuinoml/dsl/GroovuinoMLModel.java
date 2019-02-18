@@ -58,16 +58,18 @@ public class GroovuinoMLModel {
 		}
 	}
 
-	public void makeEmphasized(String statename,String actuator){
-		/*for (State state1 : states){
-			if (state1.getName().equals(statename))
-				state1.setEmphasized(true);
-				for(Brick actuator1 : bricks){
-					if(actuator1.getName().equals(actuator)){
-						state1.setEmphasizor((Actuator)actuator1);
-					}
-				}
-		}*/
+
+	public void createSignaling(State stateA, Actuator actuatorA, int numberbip, String lengthbip){
+		Signaling signaling = new Signaling();
+		// TO DO
+		// convert lengthbip to enum
+		signaling.setBeepSize(BEEP.LONG);
+		signaling.setNumberOfBeeps( numberbip );
+		signaling.setActuator( actuatorA );
+
+		stateA.setSignaling( signaling );
+
+		//this.binding.setVariable( "jjj", new Object() );
 	}
 
 	// List<Sensors>

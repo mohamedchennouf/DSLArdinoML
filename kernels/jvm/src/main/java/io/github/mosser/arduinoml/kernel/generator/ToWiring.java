@@ -31,6 +31,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w("\n");
 
 
+
 		for(Mode mode : app.getModes()) {
 			w(String.format("void mode_%s(String currentStateName);", mode.getName()));
 			for(State state : mode.getStates()) {
@@ -186,9 +187,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 			/*w(String.format("  if( digitalRead(%d) == %s && guard ) {",
 					 transition.getSensor().getPin(),transition.getValue()));*/
 
-			if (((State) context.get( CURRENT_STATE )).getEmphasized()) {
+			/*if (((State) context.get( CURRENT_STATE )).getEmphasized()) {
 				w( "     timerOn = 0;" );
-			}
+			}*/
 			w( "      time = millis();" );
 			w( String.format( "      state_%s();", transition.getNext().getName() ) );
 			w( "    } else {" );
@@ -280,12 +281,16 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w( "  }\n" );
 
 
-
-
 	}
 
 	@Override
 	public void visit(TransitionMode transitionMode) {
 		//w("//transition mode");
+	}
+
+
+	@Override
+	public void visit(Signaling signaling) {
+		//w("******** signaling");
 	}
 }
