@@ -4,6 +4,7 @@ analogsensor "analogsensor" onPin 1 echantillonage 1 by "s"
 actuator "led" pin 12 echantillonage 1 by "s"
 actuator "buzzer" pin 8 echantillonage 1 by "s"
 
+
 state "on" means "led" becomes "high" and "buzzer" becomes "high"
 state "off" means "led" becomes "low" and "buzzer" becomes "low"
 state "on1" means "led" becomes "high" and "buzzer" becomes "high"
@@ -16,6 +17,8 @@ transition "t4" from "off" to "on1" when "button1" becomes "high"  and "button2"
 
 mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "off"
 mode "nuit" states (["on1", "off"]) transi (["t3","t4"]) init "on1"
+
+initial "jour"
 
 
 from "jour" to "nuit" when "analogsensor" threshold "sup"

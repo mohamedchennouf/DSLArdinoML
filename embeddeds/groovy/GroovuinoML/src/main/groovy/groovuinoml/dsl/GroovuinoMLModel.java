@@ -13,10 +13,11 @@ import io.github.mosser.arduinoml.kernel.structural.*;
 public class GroovuinoMLModel {
 	private List<Brick> bricks;
 	private List<State> states;
+	private Mode initialMode;
 	private State initialState;
 	private ArrayList<Mode> modes;
-	private List<Transition> transitions;
-	private List<TransitionMode> transitionModes;
+	private List<AnalogSensor> analogSensors;
+
 
 
 	private Binding binding;
@@ -25,8 +26,7 @@ public class GroovuinoMLModel {
 		this.bricks = new ArrayList<>();
 		this.states = new ArrayList<>();
 		this.modes = new ArrayList<>();
-		this.transitions = new ArrayList<>();
-		this.transitionModes = new ArrayList<>();
+		this.analogSensors = new ArrayList<>(  );
 		this.binding = binding;
 	}
 	
@@ -92,7 +92,7 @@ public class GroovuinoMLModel {
 		transitionMode.setSigne( signe );
 		transitionMode.setActual( mode1 );
 		mode1.setTransitionMode( transitionMode );
-		this.transitionModes.add( transitionMode );
+		//this.transitionModes.add( transitionMode );
 
 	}
 
@@ -127,8 +127,12 @@ public class GroovuinoMLModel {
 	}
 
 
-		public void setInitialState(State state) {
-		this.initialState = state;
+	public void setInitialMode(Mode initialMode) {
+			this.initialMode = initialMode;
+	}
+
+	public void setInitialState(State initialState) {
+		this.initialState = initialState;
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -137,9 +141,11 @@ public class GroovuinoMLModel {
 		app.setName(appName);
 		app.setBricks(this.bricks);
 		//app.setStates(this.states);
-		app.setInitial(this.initialState);
+		app.setInitialMode(this.initialMode);
+		app.setInitialState( this.initialState );
 		//app.setAnalogSensor( this.analogSensors );
 		app.setMode( this.modes );
+		app.setAnalogSensor( this.analogSensors );
 		Visitor codeGenerator = new ToWiring();
 		app.accept(codeGenerator);
 		
