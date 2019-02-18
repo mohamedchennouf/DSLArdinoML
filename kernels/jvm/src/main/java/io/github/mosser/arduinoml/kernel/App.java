@@ -16,10 +16,11 @@ public class App implements NamedElement, Visitable {
 	private String name;
 	private List<Brick> bricks = new ArrayList<Brick>();
 	//private List<State> states = new ArrayList<State>();
-	private Mode initialMode;
-	private State initialState;
 	private List<Mode> modes = new ArrayList<Mode>();
 	private List<AnalogSensor> analogSensor =new ArrayList<AnalogSensor>();
+
+	private Mode initialMode;
+	private State initialState;
 
 	@Override
 	public String getName() {

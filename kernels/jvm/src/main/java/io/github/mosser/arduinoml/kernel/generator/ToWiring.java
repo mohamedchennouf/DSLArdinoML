@@ -32,7 +32,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 
 		for(Mode mode : app.getModes()) {
-			w(String.format("void mode_%s(String currentStateName);", mode.getModeName()));
+			w(String.format("void mode_%s(String currentStateName);", mode.getName()));
 			for(State state : mode.getStates()) {
 				if (!defined_already_states_name.contains(state.getName())) {
 					w( String.format( "void state_%s();", state.getName() ) );
@@ -86,7 +86,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 		if (app.getInitialMode() != null) {
 			w("void loop() {");
-			w(String.format("  mode_%s(\"state_%s\");", app.getInitialMode().getModeName(), app.getInitialMode().getInitState().getName()));
+			w(String.format("  mode_%s(\"state_%s\");", app.getInitialMode().getName(), app.getInitialMode().getInitState().getName()));
 			w("}");
 		}
 		else if (app.getInitialState() != null) {
@@ -216,9 +216,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 			w( multipleSensorsEquation );
 
-			w( String.format( "      mode_%s(\"state_%s\");", mode.getModeName(), transition.getNext().getName() ) );
+			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getNext().getName() ) );
 			w( "    } else {" );
-			w( String.format( "      mode_%s(\"state_%s\");", mode.getModeName(), transition.getActualState().getName() ) );
+			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getActualState().getName() ) );
 			w( "    }" );
 
 
@@ -247,7 +247,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Mode mode) {
-		w(String.format("  void mode_%s(String currentStateName) {",mode.getModeName()));
+		w(String.format("  void mode_%s(String currentStateName) {",mode.getName()));
 
 		int i =0;
 		String str ="";
@@ -259,7 +259,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			else if(transitionMode.getSigne().equals( "inf" )) { signe = "<";}
 			AnalogSensor analogSensor = transitionMode.getAnalogSensors();
 			w(String.format("    %s(analogRead(%d) %s %d){", str, analogSensor.getPin(), signe,analogSensor.getThreshold()));
-			w(String.format("      mode_%s(\"state_%s\");", transitionMode.getNext().getModeName(),  transitionMode.getNext().getInitState().getName()));
+			w(String.format("      mode_%s(\"state_%s\");", transitionMode.getNext().getName(),  transitionMode.getNext().getInitState().getName()));
 			w( "    }" );
 			i++;
 		}

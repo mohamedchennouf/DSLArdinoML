@@ -99,7 +99,7 @@ public class GroovuinoMLModel {
 
 	public void createMode(String modeName, ArrayList<State> states, ArrayList<Transition> transitions, State initState) {
 		Mode mode = new Mode();
-		mode.setModeName(modeName);
+		mode.setName(modeName);
 
 		//set states
 		mode.setStates(states);

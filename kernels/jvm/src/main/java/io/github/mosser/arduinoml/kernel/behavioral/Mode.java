@@ -1,5 +1,6 @@
 package io.github.mosser.arduinoml.kernel.behavioral;
 
+import io.github.mosser.arduinoml.kernel.NamedElement;
 import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.AnalogSensor;
@@ -8,22 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Mode implements Visitable {
+public class Mode implements NamedElement, Visitable {
 
-    private String modeName;
+    private String name;
     private List<State> states = new ArrayList<>();
     private List<Transition> transitions = new ArrayList<>();
     private State initState;
     private List<TransitionMode> transitionMode = new ArrayList<>();
-
-
-    public String getModeName() {
-        return modeName;
-    }
-
-    public void setModeName(String modeName) {
-        this.modeName = modeName;
-    }
 
 
     public List<State> getStates() {
@@ -59,7 +51,7 @@ public class Mode implements Visitable {
     }*/
 
     public void setTransitionMode(TransitionMode transitionMode) {
-        this.transitionMode.add(transitionMode);
+        this.transitionMode.add( transitionMode );
     }
 
 
@@ -69,6 +61,17 @@ public class Mode implements Visitable {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(this);
+        visitor.visit( this );
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
