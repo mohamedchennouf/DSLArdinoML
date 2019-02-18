@@ -213,8 +213,14 @@ abstract class GroovuinoMLBasescript extends Script {
 					for (String state : states) {
 						State stateA = state instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state) : (State) state
 						//forbid to add the same state in 2 different modes
-						//if (stateA.getMode() == null) {
-						statesList.add(stateA)
+						//if state has already mode initialised it means that it belongs to diffrent mode already
+						try {
+							stateA.getMode().getName();
+							throw new Exception()
+
+						} catch(java.lang.NullPointerException e) {
+							statesList.add(stateA)
+						}
 						//}
 					}
 

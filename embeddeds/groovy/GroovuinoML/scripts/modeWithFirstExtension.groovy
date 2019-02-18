@@ -12,20 +12,16 @@ state "off1" means "led" becomes "low" and "buzzer" becomes "low"
 
 transition "t1" from "on" to "off" when "button1" becomes "low"  and "button2"  becomes "high"
 transition "t2" from "off" to "on" when "button1" becomes "high"  and "button2"  becomes "high"
-transition "t3" from "on1" to "off" when "button1" becomes "low"  and "button2"  becomes "high"
-transition "t4" from "off" to "on1" when "button1" becomes "high"  and "button2"  becomes "high"
+transition "t3" from "on1" to "off1" when "button1" becomes "low"  and "button2"  becomes "high"
+transition "t4" from "off1" to "on1" when "button1" becomes "high"  and "button2"  becomes "high"
 
 mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "off"
-mode "nuit" states (["on1", "off"]) transi (["t3","t4"]) init "on1"
+mode "nuit" states (["on1", "off1"]) transi (["t3","t4"]) init "on1"
 
-initial "jour"
-
-initial "on"
 
 from "jour" to "nuit" when "analogsensor" threshold "sup"
 from "nuit" to "jour" when "analogsensor" threshold "inf"
 
-export "Switch!"
 
 
 //we want this state to be emphisized signaling

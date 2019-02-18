@@ -24,21 +24,29 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(App app) {
-		List<String> defined_already_states_name = new ArrayList<>(  );
 
 		w("// Wiring code generated from an ArduinoML model");
 		w(String.format("// Application name: %s\n", app.getName()));
 		w("\n");
+
+		//************************
+		//signalling stuff
+		for(Mode mode : app.getModes()) {
+			for(State state : mode.getStates()) {
+				try {
+					state.getSignaling().accept( this );
+				} catch (java.lang.NullPointerException e) {
+				}
+			}
+		}
+		//************************
 
 
 
 		for(Mode mode : app.getModes()) {
 			w(String.format("void mode_%s(String currentStateName);", mode.getName()));
 			for(State state : mode.getStates()) {
-				if (!defined_already_states_name.contains(state.getName())) {
-					w( String.format( "void state_%s();", state.getName() ) );
-					defined_already_states_name.add( state.getName() );
-				}
+				w( String.format( "void state_%s();", state.getName() ) );
 			}
 		}
 		w("\n");
@@ -68,14 +76,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 
 
-		defined_already_states_name.clear();
 		for(Mode mode : app.getModes()) {
 
 			for(State state: mode.getStates()){
-				if (!defined_already_states_name.contains(state.getName())) {
-					state.accept( this );
-					defined_already_states_name.add( state.getName() );
-				}
+				state.accept( this );
+
 			}
 			w("\n\n\n");
 			if (mode.getTransitionMode().size() != 0) {
@@ -291,6 +296,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Signaling signaling) {
-		//w("******** signaling");
+		w("******** signaling");
 	}
 }
