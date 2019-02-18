@@ -23,8 +23,10 @@ from "nuit" to "jour" when "analogsensor" threshold "inf" at 2
 
 
 //we want this state to be emphisized signaling
-signalstuff "on" when "start" with 1 bip "long" on "led" onlymode "jour"
-signalstuff "on" when "stop" with 3 bip "short" on "led"
+//signalstuff "on" when "start" with 1 bip "long" on "led" onlymode "jour"
+//signalstuff "on" when "stop" with 3 bip "short" on "led"
+
+signalstuff "signalStuffName" when "on" with 3 bip "short" onmode "jour"
 
 
 export "Switch!"
