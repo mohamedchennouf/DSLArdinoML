@@ -4,6 +4,9 @@ import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.structural.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Quick and dirty visitor to support the generation of Wiring code
  */
@@ -21,6 +24,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(App app) {
+		List<String> defined_already_states_name = new ArrayList<>(  );
+
 		w("// Wiring code generated from an ArduinoML model");
 		w(String.format("// Application name: %s\n", app.getName()));
 		w("\n");
@@ -29,7 +34,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 		for(Mode mode : app.getModes()) {
 			w(String.format("void mode_%s(String currentStateName);", mode.getModeName()));
 			for(State state : mode.getStates()) {
-				w(String.format("void state_%s();", state.getName()));
+				if (!defined_already_states_name.contains(state.getName())) {
+					w( String.format( "void state_%s();", state.getName() ) );
+					defined_already_states_name.add( state.getName() );
+				}
 			}
 		}
 		w("\n");
@@ -40,13 +48,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 		for(Brick brick: app.getBricks()){
 			brick.accept(this);
 		}
+		w("  Serial.begin(9600);");
 		w("}\n");
 
 
 		w("long timerOn = 0;");
 		w("long time = 0; long debounce = 200;");
 		w("long sensorValue = 0;\n");
-		w("const long analogInPin = 11");
+		//w("const long analogInPin = 11;");
 		/*for(AnalogSensor analogSensor : app.getAnalogSensor()) {
 			w(String.format("int analog_sensor_%s = %d;", analogSensor.getName(), analogSensor.getThreshold()));
 		}*/
@@ -58,12 +67,16 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 
 
+		defined_already_states_name.clear();
 		for(Mode mode : app.getModes()) {
 
 			for(State state: mode.getStates()){
-				state.accept(this);
+				if (!defined_already_states_name.contains(state.getName())) {
+					state.accept( this );
+					defined_already_states_name.add( state.getName() );
+				}
 			}
-			w("}\n\n\n");
+			w("\n\n\n");
 			if (mode.getTransitionMode().size() != 0) {
 				for (TransitionMode transitionMode : mode.getTransitionMode()) {
 					transitionMode.accept( this );
@@ -71,16 +84,16 @@ public class ToWiring extends Visitor<StringBuffer> {
 			}
 		}
 
-		/*if (app.getModes() != null) {
+		if (app.getInitialMode() != null) {
 			w("void loop() {");
 			w(String.format("  mode_%s(\"state_%s\");", app.getInitialMode().getModeName(), app.getInitialMode().getInitState().getName()));
 			w("}");
 		}
-		if (app.getInitialMode() == null) {
+		else if (app.getInitialState() != null) {
 			w("void loop() {");
 			w(String.format("  state_%s();", app.getInitialState().getName()));
 			w("}");
-		}*/
+		}
 
 
 	}
@@ -191,8 +204,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 				int i = 0;
 				SIGNAL signal = transition.getValue().get( i );
 				multipleSensorsEquation += (signal.equals( SIGNAL.HIGH ) || signal.equals( SIGNAL.LOW )) ? signal : signal.getIntValue();
-				if (transition.getLogicalOperator().size() > i) { // if there is another condition
-					multipleSensorsEquation += (transition.getLogicalOperator().get( i++ ).equals( LogicalOperator.AND_LOG ) ? " && " : " || ");
+				if (!sensor.equals( transition.getSensor().get( transition.getSensor().size()-1 ) )) {
+					if (transition.getLogicalOperator().size() > i) { // if there is another condition
+						multipleSensorsEquation += (transition.getLogicalOperator().get( i ).equals( LogicalOperator.AND_LOG ) ? " && " : " || ");
+						i++;
+					}
 				}
 			}
 
@@ -200,9 +216,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 			w( multipleSensorsEquation );
 
-			w( String.format( "      mode_%s(state_%s);", mode.getModeName(), transition.getNext().getName() ) );
+			w( String.format( "      mode_%s(\"state_%s\");", mode.getModeName(), transition.getNext().getName() ) );
 			w( "    } else {" );
-			w( String.format( "      mode_%s(state_%s);", mode.getModeName(), transition.getActualState().getName() ) );
+			w( String.format( "      mode_%s(\"state_%s\");", mode.getModeName(), transition.getActualState().getName() ) );
 			w( "    }" );
 
 
@@ -243,7 +259,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			else if(transitionMode.getSigne().equals( "inf" )) { signe = "<";}
 			AnalogSensor analogSensor = transitionMode.getAnalogSensors();
 			w(String.format("    %s(analogRead(%d) %s %d){", str, analogSensor.getPin(), signe,analogSensor.getThreshold()));
-			w(String.format("      mode_%s(state_%s);", transitionMode.getNext().getModeName(),  transitionMode.getNext().getInitState().getName()));
+			w(String.format("      mode_%s(\"state_%s\");", transitionMode.getNext().getModeName(),  transitionMode.getNext().getInitState().getName()));
 			w( "    }" );
 			i++;
 		}

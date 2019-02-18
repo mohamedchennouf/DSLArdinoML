@@ -20,6 +20,7 @@ mode "nuit" states (["on1", "off"]) transi (["t3","t4"]) init "on1"
 
 initial "jour"
 
+initial "on"
 
 from "jour" to "nuit" when "analogsensor" threshold "sup"
 from "nuit" to "jour" when "analogsensor" threshold "inf"
