@@ -58,7 +58,14 @@ abstract class GroovuinoMLBasescript extends Script {
 
 	// initial state
 	def initial(state) {
-		((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().setInitialState(state instanceof String ? (State)((GroovuinoMLBinding)this.getBinding()).getVariable(state) : (State)state)
+		try {
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().setInitialState(state instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state) : (State) state)
+		} catch(Error e){
+			try {
+				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().setInitialMode(state instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(state) : (Mode) state)
+			} catch(Error ee){}
+		}
+
 	}
 
 
