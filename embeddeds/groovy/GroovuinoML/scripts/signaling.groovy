@@ -11,6 +11,6 @@ transition "t1" from "on" to "off" when "button1" becomes "low"
 transition "t2" from "off" to "on" when "button1" becomes "high"
 
 //we want this state to be emphisized signaling
-signalstuff "on" with 3 bip "long" on "led" when "end"
+signalstuff "on" with 1 bip "long" on "led" when "end"
 
 export "Switch!"

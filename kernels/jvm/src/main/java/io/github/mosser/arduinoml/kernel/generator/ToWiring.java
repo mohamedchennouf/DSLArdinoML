@@ -139,6 +139,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 	w(String.format("  void state_%s() {",state.getName()));
 	if(state.getSignaling() != null ) {
 			int timer = state.getSignaling().getTimerBip();
+			if(enableMode){
+				timer = timer/500;
+			}
 			boolean isHigh = true;
 			for (int i = 0; i < state.getSignaling().getNumberOfBeeps() * 2; i++) {
 				if (i == 0) {
@@ -164,8 +167,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 					w("	}");
 				}
 			}
-	}else{
-		w("  timerOn = 0;");
 	}
 		if (state.getMode() == null) {
 
@@ -230,6 +231,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 				w( "     timerOn = 0;" );
 			}*/
 			w( "      time = millis();" );
+			if(((State) context.get( CURRENT_STATE )).getSignaling() != null) {
+				w("      timerOn = 0;");
+			}
 			w( String.format( "      state_%s();", transition.getNext().getName() ) );
 			w( "    } else {" );
 			w( String.format( "      state_%s();", ((State) context.get( CURRENT_STATE )).getName() ) );
@@ -255,7 +259,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 			multipleSensorsEquation += transition.getSensor().isEmpty() ? "){" : " )) {";
 
 			w( multipleSensorsEquation );
-
+			if(transition.getActualState().getSignaling() != null) {
+				w("      timerOn = 0;");
+			}
 			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getNext().getName() ) );
 			w( "    } else {" );
 			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getActualState().getName() ) );
