@@ -1,13 +1,12 @@
 import serial
-
-#from time import gmtime, strftime
+import sys
+import time
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
 import matplotlib.ticker
 import _thread
-import time
 
 
 style.use('fivethirtyeight')
@@ -15,9 +14,16 @@ style.use('fivethirtyeight')
 fig= plt.figure()
 ax = fig.add_subplot(1,1,1)
 ax.set_ylim([0,1000])
+
 sensors = 1
-mode = True
-state = True
+mode = False
+state = False
+
+# user's choice of what to parse
+if 'state' in sys.argv :
+ state = True
+if 'mode' in sys.argv :
+ mode = True
 
 logs = []
 x = []
@@ -25,42 +31,29 @@ ymode = []
 ystate = []
 ysensor = []
 
+ser = serial.Serial(sys.argv[1],sys.argv[2])
 
-
-#ser = serial.Serial('/dev/tty.usbserial',9600)#,serial.PARITY_NONE,serial.STOPBITS_ONE,serial.EIGHTBITS,1)
-ser = serial.Serial('COM7',9600)#,serial.PARITY_NONE,serial.STOPBITS_ONE,serial.EIGHTBITS,1)
-#ys = ser.readline()
-#ys = ser.readline()
-#figure
-##ax1 = fig.add_subplot(1,1,1)
-
-##mettre une intervalle de temps
-
-
-# modeName = []
-# stateName = []
 
 def animate(i):
-
-
- textstr = '\n'.join((
-  r'mode : %s' % ymode[-1],
-  r'state : %s'% ystate[-1],
-  r'sensor : %s' % ysensor[-1]))
+ textstr =''.join((
+   r'sensor : %s' % ysensor[-1]))
+ if mode :
+  textstr = '\n'.join((
+   r'mode : %s' % ymode[-1],
+   textstr))
+ if state :
+  print(state)
+  textstr = '\n'.join((
+   r'state : %s' % ystate[-1],
+   textstr))
 
  ax.clear()
- #dt.datetime.now().strftime('%S')
- #print (x)
- #print (ysensor)
-# ax.plot(dt.datetime.strptime("%H:%M:%S").now(),gmtime()),ysensor)
+
  ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(100))
  ax.text(0.5,0.95,textstr,fontsize=14,horizontalalignment='right',
          verticalalignment='center',transform=ax.transAxes,bbox=dict(facecolor='red', alpha=0.5))
 
  ax.plot(x,ysensor)
-# ax.set_ylim([0,1000])
- # x.clear()
- # ysensor.clear()
 
 
 
@@ -81,27 +74,18 @@ def parse():
  if x.__len__()  < ysensor.__len__() :
   x.append(x[-1]+1)
 
-
- # elif x:
- #  x.append(x[-1]+1)
-
  ys = ser.readline()
- ##print ('parse')
  ys = ys.rstrip()
  ys = ys.decode("utf-8")
- #print (ys)
  logs = (ys.split(' ; '))
- #print (logs)
+
  for item in logs :
   val = item.split(' : ')
   if mode and val[0] == 'mode':
-   #print (val[1])
    ymode.append(val[1])
   if state and val[0] == 'state':
-   #print (val[1])
    ystate.append(val[1])
   if val[0] == 'sensor':
-   #print (val[1])
    ysensor.append(val[1])
 
 
