@@ -137,7 +137,36 @@ public class GroovuinoMLModel {
 	public void setInitialState(State initialState) {
 		this.initialState = initialState;
 	}
-	
+
+	public void showModes() {
+		if (this.modes.size() != 0) {
+			for (Mode mode : this.modes) {
+				mode.setShow( true );
+			}
+		}
+	}
+
+	public void showStates() {
+		System.out.println( "jjjjjjjjjjj" );
+		if (this.states.size() != 0) {
+			for (State state : this.states) {
+				state.setShow( true );
+			}
+		} if (this.modes.size() != 0) {
+			System.out.println( "modes states blabla" );
+			for (Mode mode : this.modes) {
+				if (mode.getStates().size() !=0) {
+					System.out.println( "pppppppp" );
+					for (State state : mode.getStates()) {
+						System.out.println( "mmmmmmmmm" );
+						state.setShow( true );
+					}
+				}
+			}
+		}
+	}
+
+
 	@SuppressWarnings("rawtypes")
 	public Object generateCode(String appName) {
 		App app = new App();

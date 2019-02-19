@@ -17,6 +17,8 @@ public class State implements NamedElement, Visitable {
 	private Mode mode = null;
 	private Transition transition;
 	private Signaling signaling;
+	private boolean show;
+
 
 	@Override
 	public String getName() {
@@ -51,6 +53,14 @@ public class State implements NamedElement, Visitable {
 
 	public void setSignaling(Signaling signaling) {
 		this.signaling = signaling;
+	}
+
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
 	}
 
 	/*public void setEmphasized(boolean emphasized) {

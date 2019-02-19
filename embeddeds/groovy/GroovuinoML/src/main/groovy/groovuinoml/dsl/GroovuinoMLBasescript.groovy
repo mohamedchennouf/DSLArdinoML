@@ -238,6 +238,28 @@ abstract class GroovuinoMLBasescript extends Script {
 		}]
 	}
 
+	//show state/mode
+	def show(String element) {
+		if (element.equals("mode")) {
+			System.out.print("mmmmmoooooooodeeeee")
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().showModes();
+		} else if(element.equals("state")) {
+			System.out.print("stateeeeeeeeee")
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().showStates();
+		}
+
+		/*try {
+			State state = element instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(element) : (State) element
+			state.setShow(true)
+		} catch(org.codehaus.groovy.runtime.typehandling.GroovyCastException e){
+			try {
+				Mode mode = element instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(element) : (Mode) element
+				mode.setShow(true)
+			} catch(org.codehaus.groovy.runtime.typehandling.GroovyCastException ee){}
+		}*/
+
+	}
+
 
 
 }

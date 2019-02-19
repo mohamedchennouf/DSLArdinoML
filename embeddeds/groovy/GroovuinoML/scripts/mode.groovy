@@ -24,6 +24,11 @@ from "nuit" to "jour" when "analogsensor" threshold "inf" at 3
 
 initial "jour"
 
+//show "mode"
+
+//show "state"
+
+
 export "Switch!"
 
 

@@ -16,6 +16,7 @@ public class Mode implements NamedElement, Visitable {
     private List<Transition> transitions = new ArrayList<>();
     private State initState;
     private List<TransitionMode> transitionMode = new ArrayList<>();
+    private boolean show;
 
 
     public List<State> getStates() {
@@ -57,6 +58,14 @@ public class Mode implements NamedElement, Visitable {
 
     public void setTransitions(List<Transition> transitions) {
         this.transitions = transitions;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
     }
 
     @Override

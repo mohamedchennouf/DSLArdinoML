@@ -137,6 +137,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(State state) {
 	w(String.format("  void state_%s() {",state.getName()));
+	w("    Serial.print(\"sensor : \");     // if logging the sensors");
+	w("    Serial.print(analogRead(2)); // 3 lines for each sensor");
+	if (state.isShow()) {
+		w(String.format("    Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
+	}
 	if(state.getSignaling() != null ) {
 			int timer = state.getSignaling().getTimerBip();
 			if(enableMode){
@@ -259,9 +264,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			multipleSensorsEquation += transition.getSensor().isEmpty() ? "){" : " )) {";
 
 			w( multipleSensorsEquation );
-			if(transition.getActualState().getSignaling() != null) {
-				w("      timerOn = 0;");
-			}
+
 			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getNext().getName() ) );
 			w( "    } else {" );
 			w( String.format( "      mode_%s(\"state_%s\");", mode.getName(), transition.getActualState().getName() ) );
@@ -295,6 +298,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 	public void visit(Mode mode) {
 
 		w(String.format("  void mode_%s(String currentStateName) {",mode.getName()));
+		if (mode.isShow()) {
+			w(String.format("    Serial.print(\"mode : mode_%s ; \");  //if logging the mode", mode.getName()));
+		}
 
 		int i =0;
 		String str ="";
