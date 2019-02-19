@@ -10,6 +10,8 @@ public class Signaling implements Visitable {
     private int numberOfBeeps = 0;
     private BEEP beepSize;
     private Actuator actuator;
+    private int shortBip = 10000;
+    private int longBip = 30000;
 
     public int getNumberOfBeeps() {
         return numberOfBeeps;
@@ -33,6 +35,14 @@ public class Signaling implements Visitable {
 
     public void setActuator(Actuator actuator) {
         this.actuator = actuator;
+    }
+
+    public int getTimerBip(){
+        if(this.beepSize.equals(BEEP.LONG)){
+            return longBip;
+        }else{
+            return shortBip;
+        }
     }
 
     @Override

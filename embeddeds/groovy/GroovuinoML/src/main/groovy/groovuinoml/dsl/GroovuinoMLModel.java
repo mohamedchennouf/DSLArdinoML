@@ -47,7 +47,6 @@ public class GroovuinoMLModel {
 	}
 	
 	public void createState(String name, List<Action> actions) {
-			System.out.println("wtffff");
 			State state = new State();
 			state.setName( name );
 			state.setActions( actions );
@@ -58,9 +57,11 @@ public class GroovuinoMLModel {
 
 	public void createSignaling(State stateA, Actuator actuatorA, int numberbip, String lengthbip){
 		Signaling signaling = new Signaling();
-		// TO DO
-		// convert lengthbip to enum
-		signaling.setBeepSize(BEEP.LONG);
+		if(lengthbip.equals("short")){
+			signaling.setBeepSize(BEEP.SHORT);
+		}else{
+			signaling.setBeepSize(BEEP.LONG);
+		}
 		signaling.setNumberOfBeeps( numberbip );
 		signaling.setActuator( actuatorA );
 
