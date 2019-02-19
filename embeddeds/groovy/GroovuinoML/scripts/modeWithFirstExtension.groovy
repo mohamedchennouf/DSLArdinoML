@@ -28,6 +28,6 @@ from "nuit" to "jour" when "analogsensor" threshold "inf" at 2
 //signalstuff "on" with 3 bip "long" on "buzzer" onlymode "jour"
 signalstuff "on" with 3 bip "short" on "buzzer" when "start"
 
-
+initial "nuit"
 
 export "Switch!"

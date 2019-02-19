@@ -15,12 +15,14 @@ transition "t2" from "off" to "on" when "button1" becomes "high"  and "button2" 
 transition "t3" from "on1" to "off1" when "button1" becomes "low"  and "button2"  becomes "high"
 transition "t4" from "off1" to "on1" when "button1" becomes "high"  and "button2"  becomes "high"
 
-mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "off"
+mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "on"
 mode "nuit" states (["on1", "off1"]) transi (["t3","t4"]) init "on1"
 
 
 from "jour" to "nuit" when "analogsensor" threshold "sup" at 3
 from "nuit" to "jour" when "analogsensor" threshold "inf" at 3
+
+initial "jour"
 
 export "Switch!"
 

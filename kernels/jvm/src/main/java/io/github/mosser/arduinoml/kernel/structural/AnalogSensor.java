@@ -11,8 +11,6 @@ public class AnalogSensor extends  Sensor { //extends Sensor {
     }
 
     public void setThreshold(double threshold) {
-        System.out.println("oooooooo");
-        System.out.println(threshold);
         this.threshold = threshold;
     }
 

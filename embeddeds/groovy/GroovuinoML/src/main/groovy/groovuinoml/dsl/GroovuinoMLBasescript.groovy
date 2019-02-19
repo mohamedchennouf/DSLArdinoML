@@ -64,7 +64,9 @@ abstract class GroovuinoMLBasescript extends Script {
 		} catch(org.codehaus.groovy.runtime.typehandling.GroovyCastException e){
 			try {
 				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().setInitialMode(state instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(state) : (Mode) state)
-			} catch(org.codehaus.groovy.runtime.typehandling.GroovyCastException ee){}
+			} catch(org.codehaus.groovy.runtime.typehandling.GroovyCastException ee){
+				System.out.println("Ce n'est ni un mode ni un etat")
+			}
 		}
 
 	}
