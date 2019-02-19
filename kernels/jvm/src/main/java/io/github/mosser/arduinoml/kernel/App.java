@@ -15,7 +15,7 @@ public class App implements NamedElement, Visitable {
 
 	private String name;
 	private List<Brick> bricks = new ArrayList<Brick>();
-	//private List<State> states = new ArrayList<State>();
+	private List<State> states = new ArrayList<State>();
 	private List<Mode> modes = new ArrayList<Mode>();
 	private List<AnalogSensor> analogSensor =new ArrayList<AnalogSensor>();
 
@@ -40,14 +40,13 @@ public class App implements NamedElement, Visitable {
 		this.bricks = bricks;
 	}
 
-	/*public List<State> getStates() {
+	public List<State> getStates() {
 		return states;
 	}
 
 	public void setStates(List<State> states) {
 		this.states = states;
 	}
-	*/
 
 	public Mode getInitialMode() {
 		return initialMode;

@@ -14,6 +14,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	private final static String CURRENT_STATE = "current_state";
 
+	boolean enableMode = true;
+
 	public ToWiring() {
 		this.result = new StringBuffer();
 	}
@@ -25,9 +27,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(App app) {
 
+		if(app.getModes().size() == 0){
+			enableMode = false;
+		}
+
 		w("// Wiring code generated from an ArduinoML model");
 		w(String.format("// Application name: %s\n", app.getName()));
 		w("\n");
+
 
 		//************************
 		//signalling stuff
@@ -70,23 +77,30 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}*/
 		w("\n");
 
-
-		for(Mode mode : app.getModes()) {
-			mode.accept( this );
-		}
-
-
-		for(Mode mode : app.getModes()) {
-
-			for(State state: mode.getStates()){
-				state.accept( this );
-
+		if(enableMode) {
+			for (Mode mode : app.getModes()) {
+				mode.accept(this);
 			}
-			w("\n\n\n");
-			if (mode.getTransitionMode().size() != 0) {
-				for (TransitionMode transitionMode : mode.getTransitionMode()) {
-					transitionMode.accept( this );
+
+
+			for (Mode mode : app.getModes()) {
+
+				for (State state : mode.getStates()) {
+					state.accept(this);
+
 				}
+				w("\n\n\n");
+				if (mode.getTransitionMode().size() != 0) {
+					for (TransitionMode transitionMode : mode.getTransitionMode()) {
+						transitionMode.accept(this);
+					}
+				}
+			}
+
+		}else{
+
+			for (State state : app.getStates()) {
+				state.accept(this);
 			}
 		}
 

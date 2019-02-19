@@ -29,9 +29,10 @@ abstract class GroovuinoMLBasescript extends Script {
 	// actuator "name" pin n
 	def actuator(String name) {
 		[pin: { n ->
+			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createActuator(name, n)
 			[echantillonage: { timestamp ->
 				[by: { unit ->
-				((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createActuator(name, n)
+				//TODO
 				}]
 			}]
 		}]

@@ -47,15 +47,12 @@ public class GroovuinoMLModel {
 	}
 	
 	public void createState(String name, List<Action> actions) {
-		try{
-			this.binding.getVariable(name);
-		} catch (groovy.lang.MissingPropertyException e) {
+			System.out.println("wtffff");
 			State state = new State();
 			state.setName( name );
 			state.setActions( actions );
 			this.states.add(state);
 			this.binding.setVariable( name, state );
-		}
 	}
 
 
@@ -149,6 +146,7 @@ public class GroovuinoMLModel {
 		app.setInitialState( this.initialState );
 		//app.setAnalogSensor( this.analogSensors );
 		app.setMode( this.modes );
+		app.setStates(this.states);
 		app.setAnalogSensor( this.analogSensors );
 		Visitor codeGenerator = new ToWiring();
 		app.accept(codeGenerator);
