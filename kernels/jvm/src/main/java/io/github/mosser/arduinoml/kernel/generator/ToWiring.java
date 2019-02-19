@@ -133,8 +133,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(State state) {
 	w(String.format("  void state_%s() {",state.getName()));
-	w("    Serial.print(\"sensor : \");     // if logging the sensors");
-	w(String.format("    Serial.print(analogRead(%s)); // 3 lines for each sensor", ""));
+
 	if (state.isShow()) {
 		w(String.format("    Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
 	}
@@ -298,10 +297,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 			w(String.format("    Serial.print(\"mode : mode_%s ; \");  //if logging the mode", mode.getName()));
 		}
 
+
+		int analogSensorValue = 0;
+
 		int i =0;
 		String str ="";
 		String signe = "";
 		for(TransitionMode transitionMode : mode.getTransitionMode()) {
+			analogSensorValue = transitionMode.getAnalogSensors().getPin();
 			if (i == 0) { str = "if";}
 			else {str = "else if";}
 			if (transitionMode.getSigne().equals( "sup" )) { signe = ">";}
@@ -321,7 +324,12 @@ public class ToWiring extends Visitor<StringBuffer> {
 				str = "} else if";
 			}
 			w( String.format( "      %s(strcmp(currentStateName.c_str(), \"state_%s\") == 0){", str, state.getName() ) );
+
+			w("        Serial.print(\"sensor : \");     // if logging the sensors");
+			w(String.format("        Serial.print(analogRead(%d)); // 3 lines for each sensor", analogSensorValue));
+
 			w( String.format( "        state_%s();", state.getName() ) );
+
 			i++;
 		}
 		w("      }");
