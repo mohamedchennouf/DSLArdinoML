@@ -129,16 +129,12 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w(String.format("  pinMode(%d, INPUT);  // %s [Sensor]", sensor.getPin(), sensor.getName()));
 	}
 
-	@Override
-	public void visit(SignalStuff signalStuff) {
-		w("// Signal Stuff");
-	}
 
 	@Override
 	public void visit(State state) {
 	w(String.format("  void state_%s() {",state.getName()));
 	w("    Serial.print(\"sensor : \");     // if logging the sensors");
-	w("    Serial.print(analogRead(2)); // 3 lines for each sensor");
+	w(String.format("    Serial.print(analogRead(%s)); // 3 lines for each sensor", ""));
 	if (state.isShow()) {
 		w(String.format("    Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
 	}

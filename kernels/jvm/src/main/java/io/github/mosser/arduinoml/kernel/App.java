@@ -17,7 +17,6 @@ public class App implements NamedElement, Visitable {
 	private List<Brick> bricks = new ArrayList<Brick>();
 	private List<State> states = new ArrayList<State>();
 	private List<Mode> modes = new ArrayList<Mode>();
-	private List<AnalogSensor> analogSensor =new ArrayList<AnalogSensor>();
 	private Mode initialMode;
 	private State initialState;
 
