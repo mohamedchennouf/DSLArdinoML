@@ -26,7 +26,7 @@ from "nuit" to "jour" when "analogsensor" threshold "inf" at 2
 
 //we want this state to be emphisized signaling
 //signalstuff "on" with 3 bip "long" on "buzzer" onlymode "jour"
-signalstuff "on" with 3 bip "short" on "buzzer"
+signalstuff "on" with 3 bip "short" on "buzzer" when "start"
 
 
 
