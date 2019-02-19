@@ -136,42 +136,34 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(State state) {
-		w(String.format("  void state_%s() {",state.getName()));
-
+	w(String.format("  void state_%s() {",state.getName()));
 	if(state.getSignaling() != null ) {
-		int timer = state.getSignaling().getTimerBip();
-		boolean isHigh = true;
-		for(int i =0; i<state.getSignaling().getNumberOfBeeps()*2; i++){
-			if(i==0){
-				w(String.format("  	if(timerOn++ < %d){",timer));
-				w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
-				w("  	}");
-			}else if(i<state.getSignaling().getNumberOfBeeps()*2 -1){
-				w(String.format("else if(timerOn >= %d && timerOn < %d){",timer*i,timer*(i+1)));
-				if(isHigh){
-					w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
-					w("timerOn++;");
-					w("}");
-					isHigh = false;
-				}else{
-					w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
-					w("timerOn++;");
-					w("}");
-					isHigh = true;
+			int timer = state.getSignaling().getTimerBip();
+			boolean isHigh = true;
+			for (int i = 0; i < state.getSignaling().getNumberOfBeeps() * 2; i++) {
+				if (i == 0) {
+					w(String.format("	if(timerOn++ < %d){", timer));
+					w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
+					w("	}");
+				} else if (i < state.getSignaling().getNumberOfBeeps() * 2 - 1) {
+					w(String.format("	else if(timerOn >= %d && timerOn < %d){", timer * i, timer * (i + 1)));
+					if (isHigh) {
+						w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
+						w("		timerOn++;");
+						w("	}");
+						isHigh = false;
+					} else {
+						w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
+						w("		timerOn++;");
+						w("	}");
+						isHigh = true;
+					}
+				} else {
+					w("	else{");
+					w(String.format("		digitalWrite(%d,LOW);", state.getSignaling().getActuator().getPin()));
+					w("	}");
 				}
-			}else{
-				w("else{");
-				w(String.format("	digitalWrite(%d,LOW);",state.getSignaling().getActuator().getPin()));
-				w("}");
 			}
-			/*w("  	if(timerOn++ < 10000){");
-			w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
-			w("  	}");
-			w("  	else{");
-			w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
-			w("  	}");*/
-		}
-
 	}else{
 		w("  timerOn = 0;");
 	}

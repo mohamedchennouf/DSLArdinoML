@@ -55,7 +55,7 @@ public class GroovuinoMLModel {
 	}
 
 
-	public void createSignaling(State stateA, Actuator actuatorA, int numberbip, String lengthbip){
+	public void createSignaling(State stateA, Actuator actuatorA, int numberbip, String lengthbip, String when){
 		Signaling signaling = new Signaling();
 		if(lengthbip.equals("short")){
 			signaling.setBeepSize(BEEP.SHORT);
@@ -64,10 +64,11 @@ public class GroovuinoMLModel {
 		}
 		signaling.setNumberOfBeeps( numberbip );
 		signaling.setActuator( actuatorA );
-
-		stateA.setSignaling( signaling );
-
-		//this.binding.setVariable( "jjj", new Object() );
+		if(when.equals("start")){
+			stateA.setSignaling( signaling );
+		}else{
+			stateA.getTransition().getNext().setSignaling(signaling);
+		}
 	}
 
 	// List<Sensors>

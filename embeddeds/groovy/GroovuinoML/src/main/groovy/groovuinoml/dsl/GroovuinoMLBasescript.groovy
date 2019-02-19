@@ -155,24 +155,12 @@ abstract class GroovuinoMLBasescript extends Script {
 			[with: { numberbip ->
 				[bip: { lengthbip ->
 					[on: { actuator ->
-						State stateA = state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1
-						Actuator actuatorA = actuator instanceof String ? (Actuator) ((GroovuinoMLBinding) this.getBinding()).getVariable(actuator) : (Actuator) actuator
-
-						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip );
-
-						/*[onlymode: { mode ->
-							Mode modeA = mode instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode) : (Mode) mode
-
-							((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip );
-						}]*/
+						[when: { when ->
+							State stateA = state1 instanceof String ? (State) ((GroovuinoMLBinding) this.getBinding()).getVariable(state1) : (State) state1
+							Actuator actuatorA = actuator instanceof String ? (Actuator) ((GroovuinoMLBinding) this.getBinding()).getVariable(actuator) : (Actuator) actuator
+							((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip, when);
+						}]
 					}]
-					/* on: { actuator ->
-						 [onlymode: { mode ->
-							 Mode modeA = mode instanceof String ? (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode) : (Mode) mode
-
-							 ((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createSignaling(stateA, actuatorA, numberbip, lengthbip, modeA );
-						 }]
-					 }*/
 				}]
 			}]
 	}
