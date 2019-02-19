@@ -12,7 +12,8 @@ Enfin, nous devons fournir un executable python (comprenant les librairy i.e. py
 Pour ce dernier point nous fournissons un exécutable .exe sur ce lien :   
 https://www.dropbox.com/sh/rho9esrf0hkbfzu/AADwlvgVDi4Bcn4y-b-qSpw4a    
 
-L'exécutable a été construit avec pyInstaller afin de permettre a l'utilisateur d'utiliser le produit sans avoir besoin d'installer les dépendances.
+L'exécutable a été construit avec pyInstaller et utilisable sur **Windows** afin de permettre a l'utilisateur d'utiliser le produit sans avoir besoin d'installer les dépendances.
+
 
 ## Lancer le python 
 
@@ -20,7 +21,7 @@ Soit vous avez besoin d'intaller les dépendances (`pySerial et matplotlib `), p
 ```  bash
 python read.py <Votre port arduino> <baude rate> [mode] [state] 
 ```
-Ou vous pouvez également utiliser **l'exécutable** _(avec les mêmes paramètres ...)_
+Ou vous pouvez également utiliser **l'exécutable** Windows _(avec les mêmes paramètres ...)_
 
 Il est nécessaire que du côté d'arduino les données mode/state soit _'loggées'_ si vous souhaiter les afficher.  
 `mode` : permet d'afficher le nom mode courant.   

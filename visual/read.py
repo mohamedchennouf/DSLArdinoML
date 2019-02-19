@@ -42,7 +42,6 @@ def animate(i):
    r'mode : %s' % ymode[-1],
    textstr))
  if state :
-  print(state)
   textstr = '\n'.join((
    r'state : %s' % ystate[-1],
    textstr))
