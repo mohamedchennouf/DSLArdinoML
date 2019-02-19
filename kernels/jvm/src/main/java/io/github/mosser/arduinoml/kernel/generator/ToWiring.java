@@ -136,15 +136,36 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(State state) {
-		w(String.format("  void state_%s() {",state.getName()));
-
+	w(String.format("  void state_%s() {",state.getName()));
 	if(state.getSignaling() != null ) {
-		w("  	if(timerOn++ < 10000){");
-		w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
-		w("  	}");
-		w("  	else{");
-		w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
-		w("  	}");
+			int timer = state.getSignaling().getTimerBip();
+			boolean isHigh = true;
+			for (int i = 0; i < state.getSignaling().getNumberOfBeeps() * 2; i++) {
+				if (i == 0) {
+					w(String.format("	if(timerOn++ < %d){", timer));
+					w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
+					w("	}");
+				} else if (i < state.getSignaling().getNumberOfBeeps() * 2 - 1) {
+					w(String.format("	else if(timerOn >= %d && timerOn < %d){", timer * i, timer * (i + 1)));
+					if (isHigh) {
+						w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
+						w("		timerOn++;");
+						w("	}");
+						isHigh = false;
+					} else {
+						w("		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
+						w("		timerOn++;");
+						w("	}");
+						isHigh = true;
+					}
+				} else {
+					w("	else{");
+					w(String.format("		digitalWrite(%d,LOW);", state.getSignaling().getActuator().getPin()));
+					w("	}");
+				}
+			}
+	}else{
+		w("  timerOn = 0;");
 	}
 		if (state.getMode() == null) {
 
@@ -278,7 +299,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 			if (transitionMode.getSigne().equals( "sup" )) { signe = ">";}
 			else if(transitionMode.getSigne().equals( "inf" )) { signe = "<";}
 			AnalogSensor analogSensor = transitionMode.getAnalogSensors();
-			System.out.println(String.valueOf(analogSensor.getThreshold()));
 			w(String.format("    %s(analogRead(%d) %s %f){", str, analogSensor.getPin(), signe,analogSensor.getThreshold()));
 			w(String.format("      mode_%s(\"state_%s\");", transitionMode.getNext().getName(),  transitionMode.getNext().getInitState().getName()));
 			w( "    }" );
