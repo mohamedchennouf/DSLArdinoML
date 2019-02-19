@@ -1,13 +1,15 @@
 package io.github.mosser.arduinoml.kernel.behavioral;
 
+import io.github.mosser.arduinoml.kernel.NamedElement;
 import io.github.mosser.arduinoml.kernel.generator.Visitable;
 import io.github.mosser.arduinoml.kernel.generator.Visitor;
 import io.github.mosser.arduinoml.kernel.structural.*;
 
+import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transition implements Visitable {
+public class Transition implements Visitable, NamedElement {
 
 	private State actualState;
 	private State next;

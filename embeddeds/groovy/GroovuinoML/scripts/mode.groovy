@@ -1,6 +1,6 @@
 sensor "button1" onPin 9
 sensor "button2" onPin 10
-analogsensor "analogsensor" onPin 1 echantillonage 1 by "s"
+analogsensor "analogsensor" onPin 11 echantillonage 1 by "s"
 actuator "led" pin 12 echantillonage 1 by "s"
 actuator "buzzer" pin 8 echantillonage 1 by "s"
 
@@ -24,9 +24,9 @@ from "nuit" to "jour" when "analogsensor" threshold "inf" at 3
 
 initial "jour"
 
-//show "mode"
+show "mode"
 
-//show "state"
+show "state"
 
 
 export "Switch!"
