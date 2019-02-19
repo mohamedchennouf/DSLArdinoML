@@ -253,6 +253,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Mode mode) {
+
 		w(String.format("  void mode_%s(String currentStateName) {",mode.getName()));
 
 		int i =0;
@@ -264,7 +265,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 			if (transitionMode.getSigne().equals( "sup" )) { signe = ">";}
 			else if(transitionMode.getSigne().equals( "inf" )) { signe = "<";}
 			AnalogSensor analogSensor = transitionMode.getAnalogSensors();
-			w(String.format("    %s(analogRead(%d) %s %d){", str, analogSensor.getPin(), signe,analogSensor.getThreshold()));
+			System.out.println(String.valueOf(analogSensor.getThreshold()));
+			w(String.format("    %s(analogRead(%d) %s %f){", str, analogSensor.getPin(), signe,analogSensor.getThreshold()));
 			w(String.format("      mode_%s(\"state_%s\");", transitionMode.getNext().getName(),  transitionMode.getNext().getInitState().getName()));
 			w( "    }" );
 			i++;

@@ -4,13 +4,15 @@ import io.github.mosser.arduinoml.kernel.generator.Visitor;
 
 public class AnalogSensor extends  Sensor { //extends Sensor {
 
-    private Integer threshold;
+    private double threshold;
 
-    public Integer getThreshold() {
+    public double getThreshold() {
         return threshold;
     }
 
-    public void setThreshold(Integer threshold) {
+    public void setThreshold(double threshold) {
+        System.out.println("oooooooo");
+        System.out.println(threshold);
         this.threshold = threshold;
     }
 

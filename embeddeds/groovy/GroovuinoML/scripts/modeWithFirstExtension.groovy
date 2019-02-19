@@ -19,13 +19,13 @@ mode "jour" states (["on", "off"]) transi (["t1","t2"]) init "off"
 mode "nuit" states (["on1", "off1"]) transi (["t3","t4"]) init "on1"
 
 
-from "jour" to "nuit" when "analogsensor" threshold "sup"
-from "nuit" to "jour" when "analogsensor" threshold "inf"
+from "jour" to "nuit" when "analogsensor" threshold "sup" at 3
+from "nuit" to "jour" when "analogsensor" threshold "inf" at 2
 
 
 
 //we want this state to be emphisized signaling
-//signalstuff "on" with 1 bip "long" on "buzzer" onlymode "jour"
+//signalstuff "on" with 3 bip "long" on "buzzer" onlymode "jour"
 signalstuff "on" with 3 bip "short" on "buzzer"
 
 

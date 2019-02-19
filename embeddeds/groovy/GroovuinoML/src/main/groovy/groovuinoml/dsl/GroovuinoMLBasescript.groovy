@@ -76,10 +76,13 @@ abstract class GroovuinoMLBasescript extends Script {
 		[to: mode = { mode2 ->
 			[when:  { analogSensor -> //analogique sensor
 				[threshold: signe = { signe ->
-					Sensor analogSensorA = analogSensor instanceof String ? (AnalogSensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(analogSensor) : (AnalogSensor) analogSensor
-					Mode modeA = (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode1)
-					Mode modeB =  (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode2)
-					((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransitionMode( modeA, modeB, analogSensorA, signe)
+					[at: val = { val ->
+						Sensor analogSensorA = analogSensor instanceof String ? (AnalogSensor) ((GroovuinoMLBinding) this.getBinding()).getVariable(analogSensor) : (AnalogSensor) analogSensor
+						Mode modeA = (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode1)
+						Mode modeB = (Mode) ((GroovuinoMLBinding) this.getBinding()).getVariable(mode2)
+						((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().createTransitionMode(modeA, modeB, analogSensorA, signe, val)
+
+					}]
 				}]
 			}]
 		}]

@@ -87,13 +87,15 @@ public class GroovuinoMLModel {
 	}
 
 
-	public void createTransitionMode(Mode mode1, Mode mode2, AnalogSensor analogSensor, String signe) {
+	public void createTransitionMode(Mode mode1, Mode mode2, AnalogSensor analogSensor, String signe, double valeurThreshold) {
+		analogSensor.setThreshold(valeurThreshold);
 		TransitionMode transitionMode = new TransitionMode();
 		transitionMode.setNext(mode2);
 		transitionMode.setAnalogSensors( analogSensor ); //for the list of sensors
 		transitionMode.setSigne( signe );
 		transitionMode.setActual( mode1 );
 		mode1.setTransitionMode( transitionMode );
+
 		//this.transitionModes.add( transitionMode );
 
 	}
