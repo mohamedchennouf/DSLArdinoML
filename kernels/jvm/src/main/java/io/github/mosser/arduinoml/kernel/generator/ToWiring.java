@@ -138,15 +138,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 	public void visit(State state) {
 		w(String.format("  void state_%s() {",state.getName()));
 
-	/*if(state.getEmphasized() ) {
-		w("  if(timerOn++ < 10000){");
-		w("     digitalWrite(" + state.getEmphasizor().getPin() + "," + SIGNAL.HIGH.name() + ");");
-		w("  }");
-		w("  else{");
-		w("     digitalWrite(" + state.getEmphasizor().getPin() + "," + SIGNAL.LOW.name() + ");");
-		w("  }");
-
-	}*/
+	if(state.getSignaling() != null ) {
+		w("  	if(timerOn++ < 10000){");
+		w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.HIGH.name() + ");");
+		w("  	}");
+		w("  	else{");
+		w("     		digitalWrite(" + state.getSignaling().getActuator().getPin() + "," + SIGNAL.LOW.name() + ");");
+		w("  	}");
+	}
 		if (state.getMode() == null) {
 
 			for (Action action : state.getActions()) {
@@ -312,6 +311,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(Signaling signaling) {
-		w("******** signaling");
+		w("//******** signaling stuff *********");
 	}
 }
