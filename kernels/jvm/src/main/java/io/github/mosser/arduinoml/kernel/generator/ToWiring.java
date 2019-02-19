@@ -137,6 +137,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(State state) {
 	w(String.format("  void state_%s() {",state.getName()));
+	w("    Serial.print(\"sensor : \");     // if logging the sensors");
+	w("    Serial.print(analogRead(2)); // 3 lines for each sensor");
+	if (state.isShow()) {
+		w(String.format("    Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
+	}
 	if(state.getSignaling() != null ) {
 			int timer = state.getSignaling().getTimerBip();
 			boolean isHigh = true;
@@ -165,7 +170,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 				}
 			}
 	}else{
-		w("  timerOn = 0;");
+		w("    timerOn = 0;");
 	}
 		if (state.getMode() == null) {
 
@@ -229,7 +234,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 			/*if (((State) context.get( CURRENT_STATE )).getEmphasized()) {
 				w( "     timerOn = 0;" );
 			}*/
-			w( "      time = millis();" );
+			w( "       time = millis();" );
 			w( String.format( "      state_%s();", transition.getNext().getName() ) );
 			w( "    } else {" );
 			w( String.format( "      state_%s();", ((State) context.get( CURRENT_STATE )).getName() ) );
@@ -316,9 +321,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 				str = "} else if";
 			}
 			w( String.format( "      %s(strcmp(currentStateName.c_str(), \"state_%s\") == 0){", str, state.getName() ) );
-			if (mode.isShow()) {
-				w(String.format("         Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
-			}
 			w( String.format( "        state_%s();", state.getName() ) );
 			i++;
 		}

@@ -241,8 +241,10 @@ abstract class GroovuinoMLBasescript extends Script {
 	//show state/mode
 	def show(String element) {
 		if (element.equals("mode")) {
+			System.out.print("mmmmmoooooooodeeeee")
 			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().showModes();
 		} else if(element.equals("state")) {
+			System.out.print("stateeeeeeeeee")
 			((GroovuinoMLBinding) this.getBinding()).getGroovuinoMLModel().showStates();
 		}
 
