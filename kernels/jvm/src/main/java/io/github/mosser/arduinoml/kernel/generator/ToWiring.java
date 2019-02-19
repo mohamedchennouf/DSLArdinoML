@@ -289,6 +289,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 	public void visit(Mode mode) {
 
 		w(String.format("  void mode_%s(String currentStateName) {",mode.getName()));
+		if (mode.isShow()) {
+			w(String.format("    Serial.print(\"mode : mode_%s ; \");  //if logging the mode", mode.getName()));
+		}
 
 		int i =0;
 		String str ="";
@@ -313,6 +316,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 				str = "} else if";
 			}
 			w( String.format( "      %s(strcmp(currentStateName.c_str(), \"state_%s\") == 0){", str, state.getName() ) );
+			if (mode.isShow()) {
+				w(String.format("         Serial.print(\"state : state_%s ; \");  //if logging the state", state.getName()));
+			}
 			w( String.format( "        state_%s();", state.getName() ) );
 			i++;
 		}

@@ -137,7 +137,24 @@ public class GroovuinoMLModel {
 	public void setInitialState(State initialState) {
 		this.initialState = initialState;
 	}
-	
+
+	public void showModes() {
+		if (this.modes.size() != 0) {
+			for (Mode mode : this.modes) {
+				mode.setShow( true );
+			}
+		}
+	}
+
+	public void showStates() {
+		if (this.states.size() != 0) {
+			for (State state : this.states) {
+				state.setShow( true );
+			}
+		}
+	}
+
+
 	@SuppressWarnings("rawtypes")
 	public Object generateCode(String appName) {
 		App app = new App();
