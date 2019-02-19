@@ -172,13 +172,10 @@ public class GroovuinoMLModel {
 		App app = new App();
 		app.setName(appName);
 		app.setBricks(this.bricks);
-		//app.setStates(this.states);
 		app.setInitialMode(this.initialMode);
 		app.setInitialState( this.initialState );
-		//app.setAnalogSensor( this.analogSensors );
 		app.setMode( this.modes );
 		app.setStates(this.states);
-		app.setAnalogSensor( this.analogSensors );
 		Visitor codeGenerator = new ToWiring();
 		app.accept(codeGenerator);
 		

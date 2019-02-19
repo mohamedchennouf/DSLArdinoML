@@ -18,7 +18,6 @@ public class App implements NamedElement, Visitable {
 	private List<State> states = new ArrayList<State>();
 	private List<Mode> modes = new ArrayList<Mode>();
 	private List<AnalogSensor> analogSensor =new ArrayList<AnalogSensor>();
-
 	private Mode initialMode;
 	private State initialState;
 
@@ -72,14 +71,6 @@ public class App implements NamedElement, Visitable {
 		this.modes = modes;
 	}
 
-
-	public List<AnalogSensor> getAnalogSensor() {
-		return analogSensor;
-	}
-
-	public void setAnalogSensor(List<AnalogSensor> analogSensor) {
-		this.analogSensor = analogSensor;
-	}
 
 	@Override
 	public void accept(Visitor visitor) {
